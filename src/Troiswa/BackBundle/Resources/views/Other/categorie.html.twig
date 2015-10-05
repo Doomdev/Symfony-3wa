@@ -1,0 +1,59 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Responsive Hover Table</h3>
+                    <div class="box-tools">
+                        <div class="input-group" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Categorie</th>
+                        </tr>
+
+                        {% for key, categorie in categories %}
+                        <li>
+                        <tr>
+                            <td>{{ categorie.id }}</td>
+                            <td>{{ categorie.date_created | date("m/d/Y") }}</td>
+                            <td>
+                                {% if (categorie.active == true) %}
+
+                                <span class="label label-success">Actif</span>
+                                {% else  %}
+
+                                <span class="label label-warning">Inactif</span>
+                                {% endif %}
+                            </td>
+
+                            <td><a href="{{ path('troiswa_back_page_categoriedetail',{  'id' : categorie.id}) }}">{{ categorie.title }}</a></td>
+                        </tr>
+                        </li>
+                        {% endfor %}
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+
+
