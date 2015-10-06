@@ -3,18 +3,83 @@
 namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
 
 class MainController extends Controller
 {
-    public function contactAction()
+    public function contactAction(Request $request)
     {
         //return $this->render('TroiswaBackBundle:Main:contact.html.twig');
         //return new Response("hello");
-        return $this->render("TroiswaBackBundle:Other:contact.html.twig");
+        $formulaireContact = $this->createFormBuilder()
+            ->add("firstname", "text")
+            ->add("lastname", "text")
+            ->add("Email", "email")
+            ->add("Content", "text")
+            ->add("send", "submit")
+            ->getform();
+
+
+
+        if("POST" == $request->getMethod())
+        {
+            //die(dump($request->request->all()));
+            $formulaireContact->bind($request);
+
+            if ($formulaireContact->isvalid())
+            {
+                $data = $formulaireContact->getData();
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Hello Email')
+                    ->setFrom('lamerant.matthieu@gmail.com')
+                    ->setTo('roadsteur@gmail.com')
+                    ->setBody(
+                        $this->renderView(
+
+                            'TroiswaBackBundle:Email:contact.html.twig', array('data' => $data)
+                        ),
+                        'text/html'
+                    );
+             $this->get('mailer')->send($message);
+                $this->get('session')->getFlashBag()
+                     ->add('success_contact', "le mail a bien été envoyé");
+
+
+             return $this->redirectToRoute("troiswa_back_page_contact");
+
+            }
+
+        }
+
+
+        return $this->render("TroiswaBackBundle:Other:contact.html.twig", ['formContact' => $formulaireContact->createView()
+
+        ]);
     }
+
+    public function feedbackAction(Request $request)
+    {
+
+        $formulaireContact = $this->createFormBuilder()
+            ->add("url", "url")
+            ->add("Bugstatus", "choice", array('choices'=> array("bug1" => "bug-classique" ,
+                                               "bug2" => "bug-moyen",
+                                                "bug3" => "bug-fort"), 'preferred_choices'=>array('bug-classique')))
+            ->add("Firstname", "text")
+            ->add("Email", "email")
+            ->add("date", "date", ['years' => range(date('Y')-1,date('Y'))])
+            ->add("send", "submit")
+            ->getform();
+        return $this->render("TroiswaBackBundle:Other:feedback.html.twig", ['formContact' => $formulaireContact->createView()
+
+        ]);
+
+    }
+
+
 
     public function proposAction()
     {

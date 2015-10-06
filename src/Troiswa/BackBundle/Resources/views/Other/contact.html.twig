@@ -4,8 +4,31 @@
 {% block title %}Contact{% endblock %}
 {% block content %}
 
+
+        {%  for message in app.session.flashbag.get("success_contact") %}
+            <div class="alert alert-success alert-dismissable">
+            Message flash : {{ message }}
+            </div>
+        {% endfor %}
+
+
     <p> nouveau contenu</p>
+
+    {#  {{ form(formContact) }}  #}
     {{ parent() }}
+
+    {{ form_start(formContact) }}
+
+    {{ form_errors(formContact.Email) }}
+    {{ form_label(formContact.Email, "super email",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.Email, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {{ form_end(formContact) }}
+
+
+
+
+
 
 {% endblock %}
 
