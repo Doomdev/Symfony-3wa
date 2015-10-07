@@ -1,6 +1,6 @@
 {% extends "TroiswaBackBundle::layout.html.twig" %}
 
-
+{% form_theme formContact "TroiswaBackBundle:Form:fields.html.twig" %}
 {% block title %}Contact{% endblock %}
 {% block content %}
 
@@ -8,7 +8,65 @@
 
     <p> nouveau contenu</p>
     {{ parent() }}
-    {{ form(formContact) }}
+    {# form(formContact) #}
+
+    {{ form_start(formContact, {attr:{novalidate:"novalidate"}}) }}
+
+    {{ dump(formContact.url) }}
+
+    {% if formContact.url.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.url, "url",{label_attr : {class:"control-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.url, {attr : {class:"form-control"},id:" form-control2"  }) }}
+    {{ form_errors(formContact.url) }}
+
+
+    {% if formContact.url.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.Bugstatus.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.Bugstatus, "Bugstatus",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.Bugstatus, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.Bugstatus.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.Firstname.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.Firstname, " Firstname",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.Firstname, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.Firstname.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.date.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.date, "date",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.date, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.date.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+
+    {{ form_end(formContact) }}
+
 
 
 

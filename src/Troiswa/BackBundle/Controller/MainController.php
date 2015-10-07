@@ -5,6 +5,8 @@ namespace Troiswa\BackBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -15,21 +17,52 @@ class MainController extends Controller
         //return $this->render('TroiswaBackBundle:Main:contact.html.twig');
         //return new Response("hello");
         $formulaireContact = $this->createFormBuilder()
-            ->add("firstname", "text")
-            ->add("lastname", "text")
-            ->add("Email", "email")
-            ->add("Content", "text")
+            ->add("firstname", "text",
+                [
+                    "constraints" =>
+                        [
+                            new Assert\NotBlank(),
+                            new Assert\Range(
+                                [
+                                    'min' => 2,
+                                ]
+                            )
+                        ],
+                    "required"=>true
+                ]
+            )
+            ->add("lastname", "text",["constraints" =>
+                        [
+                            new Assert\NotBlank(),
+
+                        ],
+                "required"=>true])
+            ->add("Email", "email"
+
+            )
+            ->add("Content", "text",
+                [
+                    "constraints" =>
+                        [
+                            new Assert\NotBlank(),
+                            new Assert\Range(
+                                [
+                                    'min' => 10,
+                                    'max' => 100,
+                                ])
+
+
+                        ],
+                    "required"=>true])
             ->add("send", "submit")
             ->getform();
 
 
-
-        if("POST" == $request->getMethod())
+        $formulaireContact->handlerequest($request);
         {
-            //die(dump($request->request->all()));
-            $formulaireContact->bind($request);
 
-            if ($formulaireContact->isvalid())
+            if($formulaireContact->isValid())
+
             {
                 $data = $formulaireContact->getData();
                 $message = \Swift_Message::newInstance()
@@ -64,15 +97,57 @@ class MainController extends Controller
     {
 
         $formulaireContact = $this->createFormBuilder()
-            ->add("url", "url")
-            ->add("Bugstatus", "choice", array('choices'=> array("bug1" => "bug-classique" ,
-                                               "bug2" => "bug-moyen",
-                                                "bug3" => "bug-fort"), 'preferred_choices'=>array('bug-classique')))
+            ->add("url", "url",
+                [
+                    "constraints" =>
+                        [
+                            new Assert\NotBlank()
+                        ]
+                ])
+            ->add("Bugstatus", "choice", array(
+                'choices'=>
+                    array(
+                        "bug1" => "bug-classique" ,
+                        "bug2" => "bug-moyen",
+                        "bug3" => "bug-fort"),
+                'preferred_choices'=>array('bug-classique'),
+                "constraints" =>
+                    [
+                        new Assert\NotBlank()
+
+                    ]))
             ->add("Firstname", "text")
-            ->add("Email", "email")
-            ->add("date", "date", ['years' => range(date('Y')-1,date('Y'))])
+
+            ->add("Email", "email"
+
+                )
+            ->add("date", "date", ['years' => range(date('Y')-1,date('Y'))],
+                [
+                    "constraints" =>
+                        [
+                            new Assert\NotBlank(),
+                            new Assert\Date()
+
+                        ],
+                    "required"=>true
+                ]
+
+
+                )
             ->add("send", "submit")
             ->getform();
+
+        if ("POST" === $request->getMethod())
+        {
+
+            $formulaireContact->bind($request);
+            if ($formulaireContact->isValid())
+            {
+
+            }
+        }
+
+
         return $this->render("TroiswaBackBundle:Other:feedback.html.twig", ['formContact' => $formulaireContact->createView()
 
         ]);
@@ -142,6 +217,7 @@ class MainController extends Controller
     public function adminAction()
     {
 
-        return $this->render("TroiswaBackBundle:Main:admin.html.twig");
+
+        return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom" => "Doomdev"]);
     }
 }

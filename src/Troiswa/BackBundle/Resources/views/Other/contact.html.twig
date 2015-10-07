@@ -1,5 +1,15 @@
 {% extends "TroiswaBackBundle::layout.html.twig" %}
 
+{% form_theme formContact _self %}
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <p>
+            {%- for error in errors -%}
+                {{ error.message }}
+            {%- endfor -%}
+        </p>
+    {%- endif -%}
+{%- endblock form_errors -%}
 
 {% block title %}Contact{% endblock %}
 {% block content %}
@@ -17,11 +27,58 @@
     {#  {{ form(formContact) }}  #}
     {{ parent() }}
 
-    {{ form_start(formContact) }}
+    {{ form_start(formContact, {attr:{novalidate:"novalidate"}}) }}
 
-    {{ form_errors(formContact.Email) }}
-    {{ form_label(formContact.Email, "super email",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ dump(formContact.firstname) }}
+
+    {% if formContact.firstname.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+                {{ form_label(formContact.firstname, "Nom",{label_attr : {class:"control-label"},id:"label2"  }) }}
+                {{ form_widget(formContact.firstname, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.firstname.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.firstname.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.lastname, "Prenom",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.lastname, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.firstname.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.firstname.vars.errors | length %}
+    <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.Email, " email",{label_attr : {class:"form-label"},id:"label2"  }) }}
     {{ form_widget(formContact.Email, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.firstname.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formContact.firstname.vars.errors | length %}
+    <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formContact.Content, "Description",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formContact.Content, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formContact.firstname.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
 
     {{ form_end(formContact) }}
 

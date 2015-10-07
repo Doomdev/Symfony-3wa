@@ -1,0 +1,10 @@
+--------------------------------------------
+
+Pour ne faire passer aucune variable avec l'include, c'est interressant pour la performance du site
+{% include "-----------"  only %}
+que la variable qui nous interresse
+{% include "-----------" with  { "pre" : prenom} only %}
+on passe la premiere donné, si elle n'existe pas on passe celle par defaut
+{% include "-----------" with  { "pre" : prenom | default("test")} only %}
+
+--------------------------------------------
