@@ -10,7 +10,6 @@ troiswa_back_page_apropos:
     path:     /propos
     defaults: { _controller: TroiswaBackBundle:Main:propos }
 
-
 troiswa_back_page_about:
     path:     /about
     defaults: { _controller: TroiswaBackBundle:Main:about }
@@ -22,6 +21,8 @@ troiswa_back_page_products:
 troiswa_back_page_show:
     path:     /produit/{id}
     defaults: { _controller: TroiswaBackBundle:Produit:show }
+    requirements:
+        id: \d+
 
 troiswa_back_page_etudiant:
     path:     /etudiant/{prenom}/{nom}
@@ -30,7 +31,6 @@ troiswa_back_page_etudiant:
 troiswa_back_page_categorie:
     path:     /categorie
     defaults: { _controller: TroiswaBackBundle:Categorie:index }
-
 
 troiswa_back_page_categoriedetail:
     path:     /categoriedetail/{id}
@@ -43,3 +43,7 @@ troiswa_back_page_bo:
 troiswa_back_page_feedback:
     path:     /feedback
     defaults: { _controller: TroiswaBackBundle:Main:feedback }
+
+troiswa_back_page_create:
+    path:     /produit/create
+    defaults: { _controller: TroiswaBackBundle:Produit:create }

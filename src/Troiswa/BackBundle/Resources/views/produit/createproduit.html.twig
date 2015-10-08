@@ -1,0 +1,23 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+
+
+    <p> nouveau contenu</p>
+    {{ parent() }}
+
+
+     {{ form_start(formProduct, {attr:{novalidate:"novalidate"}}) }}
+     {{ form_end(formProduct) }}
+
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}
