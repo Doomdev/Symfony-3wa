@@ -1,0 +1,11 @@
+{% for message in app.session.flashbag.get("sucess")  %}
+    {{ message }}
+{% endfor %}
+
+{% for message in app.session.flashbag.get("delete")  %}
+
+{% endfor %}
+
+{% for message in app.session.flashbag.get("warning") %}
+
+{% endfor %}

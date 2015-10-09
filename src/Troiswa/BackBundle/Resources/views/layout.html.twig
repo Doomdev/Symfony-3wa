@@ -265,6 +265,9 @@
         <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                        {%  include "TroiswaBackBundle:Partials:flash.html.twig" only %}
+                </section>
+                <section class="content-header">
                         <h1>
                                 Dashboard
                                 <small>Version 2.0</small>
@@ -277,6 +280,7 @@
 
                 <!-- Main content -->
                 <section class="content">
+
                         {% block content  %}
                         {% endblock %}
                 </section><!-- /.content -->

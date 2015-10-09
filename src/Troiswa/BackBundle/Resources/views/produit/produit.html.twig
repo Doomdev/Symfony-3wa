@@ -1,0 +1,27 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+    <title> liste produit </title>
+
+    <p> nouveau contenu</p>
+
+    Id : {{ product.id }} </br>
+    Title : {{ product.title  }} </br>
+    Decription : {{ product.description  }} </br>
+    Price : {{ product.price  }} </br>
+    Date : {{ product.dateCreated | date("now") }} </br>
+    Quantité : {{ product.quantity  }} </br>
+
+
+    <td><a href="{{ path('troiswa_back_page_edit',{  'id' : product.id}) }}">{{ product.title }}</a></td>
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}

@@ -28,7 +28,7 @@
             <li class="header">MAIN NAVIGATION</li>
 
             <li><a {% if app.request.attributes.get('_route') != "troiswa_back_page_categorie" %} href="{{ path('troiswa_back_page_categorie') }}"{% endif %}><i class=""></i> <span>Categorie</span></a></li>
-            <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_categoriedetail" %} href="{{ path('troiswa_back_page_products') }}"{% endif %}><i class=""></i> <span>Produit</span></a></li>
+            <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_categoriedetail" %} href="{{ path('troiswa_back_page_productsindex') }}"{% endif %}><i class=""></i> <span>Produit</span></a></li>
             <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_feedback" %} href="{{ path('troiswa_back_page_feedback') }}"{% endif %}><i class=""></i> <span>Feedback</span></a></li>
             <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_about" %} href="{{ path('troiswa_back_page_about') }}"{% endif %}><i class=""></i> <span>About</span></a></li>
             <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_contact" %} href="{{ path('troiswa_back_page_contact') }}"{% endif %}><i class=""></i> <span>Contact</span></a></li>

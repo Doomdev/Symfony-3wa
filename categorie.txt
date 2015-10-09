@@ -1,0 +1,3 @@
+titre > 2 caracteres
+description ne doit pas contenir le mot "categorie"
+position > 0

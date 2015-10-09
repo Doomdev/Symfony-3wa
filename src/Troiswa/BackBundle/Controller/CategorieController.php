@@ -18,7 +18,7 @@ class CategorieController extends Controller
 
     public function indexAction()
     {
-        $categories = [
+       /* $categories = [
             1 => [
                 "id" => 1,
                 "title" => "Homme",
@@ -40,12 +40,51 @@ class CategorieController extends Controller
                 "date_created" => new \DateTime('-1 Days'),
                 "active" => false
             ],
-        ];
+        ];*/
 
 
 
-        return $this->render("TroiswaBackBundle:Other:categorie.html.twig",array("categories" => $categories));
+        return $this->render("TroiswaBackBundle:categorie:index.html.twig");
     }
+
+
+    public function categorieAction()
+    {
+
+
+
+
+        return $this->render("TroiswaBackBundle:categorie:categorie.html.twig");
+    }
+
+    public function createAction()
+    {
+
+
+
+
+        return $this->render("TroiswaBackBundle:categorie:createcategorie.html.twig");
+    }
+
+    public function editAction()
+    {
+
+
+
+
+        return $this->render("TroiswaBackBundle:categorie:editcategorie.html.twig");
+    }
+
+    public function deleteAction()
+    {
+
+
+
+
+        return $this->render("TroiswaBackBundle:categorie:deletecategorie.html.twig");
+    }
+
+
 
     public function showAction($id)
     {

@@ -1,0 +1,6 @@
+Categorie:
+
+-title         string
+-description   text
+-position      tinyInt
+-active        boolean

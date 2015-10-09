@@ -1,0 +1,53 @@
+/product/1
+
+private function createDeleteForm($id)
+{
+    return $this->createFormBuilder()
+        ->setAction($this->generateUrl('troiswa_back_product_delete', array('id' => $id)))
+        ->getForm()
+    ;
+}
+
+public function showAction($id)
+{
+    $em = $this->getDoctrine()->getManager();
+
+    $product = $em->getRepository('TroiswaBackBundle:Product')->find($id);
+
+    if (!$product) {
+        throw $this->createNotFoundException('Unable to find Product entity.');
+    }
+
+    $deleteForm = $this->createDeleteForm($id);
+
+    return $this->render('TroiswaBackBundle:Product:show.html.twig', array(
+        'product'      => $product,
+      'delete_form' => $deleteForm->createView(),
+    ));
+}
+
+
+/product/delete/1
+public function deleteAction(Request $request, $id)
+{
+    $form = $this->createDeleteForm($id);
+    $form->handleRequest($request);
+
+    if ($form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('TroiswaBackBundle:Product')->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Unable to find Product entity.');
+        }
+
+      	// Code de la suppression
+        $em->remove($product);
+        $em->flush();
+      	// Fin code de la suppression
+
+      	// Créer un message flash
+    }
+
+    return $this->redirect($this->generateUrl('troiswa_back_product')); // page qui liste tous les produits
+}
