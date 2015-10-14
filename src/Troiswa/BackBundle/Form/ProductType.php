@@ -2,9 +2,10 @@
 
 namespace Troiswa\BackBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
 {
@@ -18,14 +19,26 @@ class ProductType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('price')
-            ->add('dateCreated')
+            ->add('dateCreated', 'date',array("widget" => "single_text",
+                                              "format" => "dd-MM-yyyy"
+
+            ))
             ->add('quantity')
+            ->add('categorie',"entity",[
+
+                "class" => "TroiswaBackBundle:Categorie",
+                "choice_label" => "title",
+                "query_builder" => function(EntityRepository $er){
+                    return $er->createQueryBuilder("cat")
+                              ->orderBy("cat.position");
+                }
+            ])
             // le bouton submit est inserer dans la vue...
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {

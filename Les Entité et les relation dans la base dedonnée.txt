@@ -1,0 +1,61 @@
+Les relations en base de donnée:
+
+3 principales                          3 autres
+--------------                         ---------------
+( unidirectionnel )                    ( bidirectionnel )
+
+
+- OnetToOne                            - OneToOne
+- ManyToOne                            - OneToMany
+- ManyToMany                            - ManyToMany
+
+
+
+Produit:
+
+
+-id
+-title                1,m
+-price
+
+categorie.id ceci represente la cle, on a choisie Manytoone, se qui signifie que nous avons un produit pour une categorie on doit lire a l'envers
+ManyToone.
+
+
+Categorie:
+
+-id                   1,1
+-title
+
+on veut qu'un produit est une categorie et qu'une categorie est plusieurs produits.
+
+les relations birectionnel ne peuvent existé que si, il y a au moins une relation unidirectionnel.
+
+
+php app/console doctrine:generate:entities TroiswaBackBundle:Product
+php app/console doctrine:schema:update  --force
+
+-------------------------------------------------------------------------
+
+Equivalent du cat pour createQueryBuilder c'est le addSelect...
+
+LEFT JOIN
+
+recupere tout les produit meme ceux qui non pas de categorie
+
+et
+
+INNER JOIN
+
+recupere tous les produits qui on une categorie.
+
+--------------------------------------------------------------------------
+
+
+LIMIT
+
+il n'existe pas dans doctrine...
+->setmaxResult(4)
+->setFirstResult(2)
+
+--------------------

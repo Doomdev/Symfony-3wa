@@ -25,7 +25,7 @@ troiswa_back_ressource_produit:
     resource: "@TroiswaBackBundle/Resources/config/Routing/produit.yml"
     prefix:   /
 
-troiswa_back_ressource_produit:
+troiswa_back_ressource_categorie:
     resource: "@TroiswaBackBundle/Resources/config/Routing/categorie.yml"
     prefix:   /
 

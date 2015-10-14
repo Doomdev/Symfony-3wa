@@ -1,15 +1,20 @@
 troiswa_back_categorie_index:
     path:     /categorie
-    defaults: { _controller: TroiswaBackBundle:categorie:index }
+    defaults: { _controller: TroiswaBackBundle:Categorie:index }
+
+troiswa_back_categorie_show:
+    path:     /categorie/{id}
+    defaults: { _controller: TroiswaBackBundle:Categorie:categorie }
 
 troiswa_back_categorie_create:
     path:     /categorie/creation
-    defaults: { _controller: TroiswaBackBundle:categorie:create }
+    defaults: { _controller: TroiswaBackBundle:Categorie:create }
 
 troiswa_back_categorie_edit:
     path:     /categorie/edit
-    defaults: { _controller: TroiswaBackBundle:categorie:edit }
+    defaults: { _controller: TroiswaBackBundle:Categorie:edit }
 
 troiswa_back_categorie_delete:
     path:     /categorie/delete
-    defaults: { _controller: TroiswaBackBundle:categorie:delete }
+    defaults: { _controller: TroiswaBackBundle:Categorie:delete }
+

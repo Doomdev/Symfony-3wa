@@ -21,6 +21,10 @@
             <!-- AdminLTE Skins. Choose a skin from the css/skins
                  folder instead of downloading all of them to reduce the load. -->
             <link rel="stylesheet" href="{{ asset("css/skins/_all-skins.min.css") }}">
+            <link rel="stylesheet" href="{{ asset("js/datepicker/images") }}">
+            <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.min.css") }}">
+            <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.structure.min.css") }}">
+            <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.theme.min.css") }}">
 
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -51,8 +55,7 @@
             <script src="{{ "plugins/slimScroll/jquery.slimscroll.min.js" }}"></script>
             <!-- ChartJS 1.0.1 -->
             <script src="{{ asset("plugins/chartjs/Chart.min.js") }}"></script>
-            <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-            <script src="{{ asset("js/pages/dashboard2.js") }}"></script>
+
             <!-- AdminLTE for demo purposes -->
             <script src="{{ asset("js/demo.js") }}"></script>
 

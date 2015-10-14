@@ -1,6 +1,13 @@
 {% extends "TroiswaBackBundle::layout.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("js/datepicker/images") }}">
+    <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.structure.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("js/datepicker/jquery-ui.theme.min.css") }}">
 
+{% endblock %}
 
 {% block content %}
 
@@ -61,8 +68,15 @@
     {% endif %}
 
 
+    {{ form_label(formProduct.dateCreated, "date de création") }}
+    {{ form_widget(formProduct.dateCreated, {attr : {class:"datepicker"}}) }}
+    {{ form_widget(formProduct.dateCreated, {attr : {class:"datepicker"}}) }}
 
-     {{ form_end(formProduct) }}
+
+    <input type="submit" />
+
+
+    {{ form_end(formProduct) }}
 
 
 
@@ -70,5 +84,19 @@
 {% endblock %}
 
 {% block sidebar  %}
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/datepicker/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('js/product.js')}}"></script>
+
+    <script>$(".datepicker").datepicker({dateFormat:"dd/mm/yy"})</script>
+
+
 
 {% endblock %}

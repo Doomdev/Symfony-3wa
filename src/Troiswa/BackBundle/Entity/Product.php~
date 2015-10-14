@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\ProductRepository")
  */
 class Product
 {
@@ -32,7 +32,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -45,7 +45,7 @@ class Product
 
     /**
      * @var \DateTime
-     *
+     *git
      * @ORM\Column(name="date_created", type="datetime")
      */
     private $dateCreated;
@@ -53,12 +53,28 @@ class Product
     /**
      * @var integer
      *
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(name="quantity", type="integer",options = {"defaut"=1})
      */
     private $quantity;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     */
+    private $categorie;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Marque")
+     * @ORM\JoinColumn(name="id_marque", referencedColumnName="id", nullable=false)
+     */
+    private $marque;
+
+
+
     public function __construct(){
         $this->dateCreated = new \DateTime("now");
+        $this->quantity = 1;
     }
 
 
@@ -169,5 +185,54 @@ class Product
     {
         return $this->dateCreated;
     }
-}
 
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Product
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \Troiswa\BackBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function setCategorie(\Troiswa\BackBundle\Entity\Categorie $categorie = null)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Troiswa\BackBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+
+}

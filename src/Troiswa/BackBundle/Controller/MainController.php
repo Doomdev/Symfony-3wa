@@ -216,8 +216,20 @@ class MainController extends Controller
 
     public function adminAction()
     {
+        $em = $this->getDoctrine()
+                   ->getManager();
 
+        $productAll = $em->getRepository("TroiswaBackBundle:Product")
+                        // ->findAll()
+                         ->findAllPerso();
 
-        return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom" => "Doomdev"]);
+        //dump($productAll)
+
+        $product = $em->getRepository("TroiswaBackBundle:Product")
+            // equivalent de ->find(id)
+            ->findPerso(14);
+        die(dump($product));
+
+        return $this->render("TroiswaBackBundle:Main:admin.html.twig");
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\ProductRepository")
  */
 class Product
 {
@@ -56,6 +56,21 @@ class Product
      * @ORM\Column(name="quantity", type="integer",options = {"defaut"=1})
      */
     private $quantity;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     */
+    private $categorie;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Marque")
+     * @ORM\JoinColumn(name="id_marque", referencedColumnName="id", nullable=false)
+     */
+    private $marque;
+
+
 
     public function __construct(){
         $this->dateCreated = new \DateTime("now");
@@ -193,5 +208,55 @@ class Product
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \Troiswa\BackBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function setCategorie(\Troiswa\BackBundle\Entity\Categorie $categorie = null)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Troiswa\BackBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+
+
+    /**
+     * Set marque
+     *
+     * @param \Troiswa\BackBundle\Entity\Marque $marque
+     *
+     * @return Product
+     */
+    public function setMarque(\Troiswa\BackBundle\Entity\Marque $marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque
+     *
+     * @return \Troiswa\BackBundle\Entity\Marque
+     */
+    public function getMarque()
+    {
+        return $this->marque;
     }
 }

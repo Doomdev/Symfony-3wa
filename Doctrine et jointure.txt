@@ -1,0 +1,5 @@
+Pour lier un un produit a une marque, on utilise @ORMJoincolumn(------- = "marque_id", referencedColumbn-----)
+on peut mettre le nullable a false...
+
+Ne pas oublier de retirer le getter et setter pour pouvoir ensuite refaire les getters et setters grace a la manip
+generate:entities.

@@ -2,7 +2,9 @@
 
 namespace Troiswa\BackBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Troiswa\BackBundle\Entity\Product;
@@ -33,7 +35,9 @@ class ProduitController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $products = $em->getRepository('TroiswaBackBundle:Product')
-                       ->findAll();
+                       //->findAll();
+                        ->findAllProdctCategory();
+
 
 
         return $this->render("TroiswaBackBundle:produit:index.html.twig", array("product"=>$products));
@@ -53,6 +57,19 @@ class ProduitController extends Controller
             ->add("description", 'textarea')
             ->add("price")
             ->add("quantity")
+            ->add('dateCreated', 'date',array("widget" => "single_text",
+                "format" => "dd-MM-yyyy"
+
+            ))
+            ->add('categorie',"entity",[
+
+                "class" => "TroiswaBackBundle:Categorie",
+                "choice_label" => "title",
+                "query_builder" => function(EntityRepository $er){
+                    return $er->createQueryBuilder("cat")
+                        ->orderBy("cat.position");
+                }
+            ])
             //->add("date_created", 'datetime')
             ->add("envoyer", "submit")
             ->getForm();
@@ -111,6 +128,12 @@ class ProduitController extends Controller
 
         $em->remove($product);
         $em->flush();
+
+        if($request->isXmlHttpRequest())
+        {
+            return new JsonResponse();
+        }
+
 
 
         return $this->redirectToRoute("troiswa_back_page_productsindex");

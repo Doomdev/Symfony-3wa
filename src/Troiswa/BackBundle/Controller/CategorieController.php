@@ -9,8 +9,10 @@
 namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Troiswa\BackBundle\Entity\Categorie;
+use Troiswa\BackBundle\Form\CategorieType;
 
 
 class CategorieController extends Controller
@@ -48,22 +50,36 @@ class CategorieController extends Controller
     }
 
 
-    public function categorieAction()
+    public function categorieAction(Categorie $categorie)
     {
 
 
 
 
-        return $this->render("TroiswaBackBundle:categorie:categorie.html.twig");
+        return $this->render("TroiswaBackBundle:categorie:categorie.html.twig",["categorie"=>$categorie]);
     }
 
-    public function createAction()
+    public function createAction(Request $request)
     {
+        $category = new Categorie();
+        $form = $this->createForm(new CategorieType(), $category)
+                            ->add('save', 'submit');
+        $form->handleRequest($request);
+        if($form->isValid())
+        {
 
 
+            $image = $category->getImage();
+            $image->upload();
+            $em = $this->getDoctrine()->getManager();
+            //Je supprime les 2 lignes en dessous car cascade persit dans l'entity category
+            //$em->persist($image);
+            //$em->flush();
+            $em->persist($category);
+            $em->flush();
+        }
 
-
-        return $this->render("TroiswaBackBundle:categorie:createcategorie.html.twig");
+        return $this->render("TroiswaBackBundle:categorie:createcategorie.html.twig", ['formCategory' => $form->createView()]);
     }
 
     public function editAction()
@@ -112,21 +128,28 @@ class CategorieController extends Controller
             ],
         ];
 
-        if (array_key_exists( $id, $categories))
-        {
+        if (array_key_exists($id, $categories)) {
             $oneCategprie = $categories[$id];
 
-        }
-        else
-        {
+        } else {
             throw $this->createNotFoundException(" la categorie n'existe pas");
         }
 
-        return $this->render("TroiswaBackBundle:Other:categoriedetail.html.twig",array("id" => $id,
-                                                                                        "categorie" => $oneCategprie
+        return $this->render("TroiswaBackBundle:Other:categoriedetail.html.twig", array("id" => $id,
+            "categorie" => $oneCategprie
 
 
         ));
     }
+
+        public function renderAllCategorieAction(){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $categorie = $em->getRepository("TroiswaBackBundle:Categorie")->findAll();
+
+        return $this->render("TroiswaBackBundle:categorie:rendercategorie.html.twig",array("categorie" => $categorie));
+
+        }
 
 }

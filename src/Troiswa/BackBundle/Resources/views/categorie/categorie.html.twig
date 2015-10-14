@@ -1,0 +1,28 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+    <title> liste produit </title>
+
+    <p> nouveau contenu</p>
+
+<p>Categorie : {{ categorie.title }}</p>
+
+
+    {% if categorie.image %}
+        <img src="{{ asset(categorie.image.webpath) }}">
+    {% endif %}
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}

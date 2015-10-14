@@ -3,12 +3,14 @@
 namespace Troiswa\BackBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * categorie
  *
  * @ORM\Table(name="categorie")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\categorieRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\CategorieRepository")
  */
 class Categorie
 {
@@ -37,6 +39,9 @@ class Categorie
 
     /**
      * @var integer
+     * @Assert\Length(
+     *          min = 2,
+     *)
      *
      * @ORM\Column(name="position", type="smallint")
      */
@@ -49,6 +54,11 @@ class Categorie
      */
     private $active;
 
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Image")
+     */
+    private $image;
 
     /**
      * Get id
@@ -59,6 +69,7 @@ class Categorie
     {
         return $this->id;
     }
+
 
     /**
      * Set title
@@ -155,5 +166,38 @@ class Categorie
     {
         return $this->active;
     }
+
+
+    /**
+     * @Assert\Callback
+     */
+    public function istitlelenghto2caracteres(ExecutionContextInterface $context)
+    {
+        if (  strlen($this->getTitle()) < 2 ) {
+
+            $context->buildViolation('Le titre contient moins de deux caracteres')
+                ->atPath('title')
+                ->addViolation();
+        }
+    }
+
+        /**
+         * @Assert\Callback
+         */
+        public function validate(ExecutionContextInterface $context)
+        {
+            if (($this->getDecription()) == 1) {
+
+                $context->buildViolation('La Description ne doit pas contenir le mot ' . $this->getDecription())
+                    ->atPath('description')
+                    ->addViolation();
+            }
+        }
+
+    /**
+    public function __toString(){
+        return $this->title;
+    }
+     */
 }
 

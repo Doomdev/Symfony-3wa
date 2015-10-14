@@ -1,0 +1,9 @@
+php app/console doctrine:generate:entity
+php app/console doctrine:schema:update --force
+php app/console doctrine:generate:crud
+php app/console doctrine:generate:entities TroiswaBackBundle:Product
+
+
+
+
+

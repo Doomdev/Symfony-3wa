@@ -9,6 +9,7 @@
     <p> nouveau contenu</p>
     <a class="btn btn-block btn-primary" href="{{ path('troiswa_back_page_create') }}">Créer un produit</a>
     <div class="box-body table-responsive no-padding">
+    <div id="productdetail">
         <table class="table table-hover">
             <tr>
                 <th>Id</th>
@@ -18,8 +19,14 @@
                 <th>DateCreated</th>
                 <th>Quantity</th>
             </tr>
-
             {% for products in product %}
+                {#
+                    {% if products.categorie %}
+                        {{ products.categorie.title }}
+                    {% endif %}
+
+                #}
+
                 <li>
                     <tr>
                         <td>{{ products.id }}</td>
@@ -32,7 +39,7 @@
                         <td>
                             <a class="btn btn-block btn-success" href="{{ path('troiswa_back_page_show',{  'id' : products.id}) }}">Voir</a>
                             <a class="btn btn-block btn-info" href="{{ path('troiswa_back_page_edit',{  'id' : products.id}) }}">Editer</a>
-                            <a class="btn btn-block btn-danger" href="{{ path('troiswa_back_page_delete',{  'id' : products.id}) }}">Delete</a>
+                            <a class="btn btn-block btn-danger delete" href="{{ path('troiswa_back_page_delete',{  'id' : products.id}) }}">Delete</a>
 
                         </td>
 
@@ -41,7 +48,8 @@
                 </li>
             {% endfor %}
         </table>
-    </div><!-- /.box-body -->
+    </div>
+</div><!-- /.box-body -->
 
 
 {% endblock %}
@@ -49,3 +57,4 @@
 {% block sidebar  %}
 
 {% endblock %}
+

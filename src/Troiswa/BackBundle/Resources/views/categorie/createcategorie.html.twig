@@ -1,0 +1,39 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+
+
+    <p> nouveau contenu</p>
+    {{ parent() }}
+
+
+    {{ form_start(formCategory, {attr:{novalidate:"novalidate"}}) }}
+
+    {% if formCategory.title.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formCategory.title, "Title",{label_attr : {class:"control-label"},id:"label2"  }) }}
+    {{ form_widget(formCategory.title, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formCategory.title.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {{ form_end(formCategory) }}
+
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}
+
+
+

@@ -1,0 +1,39 @@
+
+ Param-converteur :
+
+ public function showAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('TroiswaBackBundle:Product')
+            ->find($id);
+
+        return $this->render("TroiswaBackBundle:produit:produit.html.twig",array("id" => $id,
+                                                                                "product" => $products
+        ));
+    }
+
+     public function showAction(Category $category)
+                                --------  --------
+                                class     objet
+        {
+          return $this->render("-------------",["category,$category"];
+        }
+
+        Permet de lier le produit à une category.
+        Ne pas oublier de user la class category.
+        Genere les exceptions, on ne peut pas les modifier a par si......
+
+        Le but du paramconverter est de transformer l id en objet.
+
+        public function renderAllCategorieAction(){
+        $em = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository("TroiswaBackBundle:Category",["categorie=>$categorie"])
+        }
+
+
+
+
+        <li> </li>
+
+        {{  render(controler("TroiswaBackBundle:Categorie:renderAllCategorie")) }}
