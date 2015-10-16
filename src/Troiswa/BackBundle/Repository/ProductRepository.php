@@ -97,4 +97,108 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    //Afficher les produits dont la catégorie est "Accueil"
+    public function findProductByAccueil($titre)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        INNER JOIN prod.categorie cat
+        WHERE cat.title = :titreValue
+        ")
+            ->setParameter('titreValue', $titre);
+
+        return $query->getResult();
+    }
+
+    //Afficher les produits qui n'ont pas de catégorie
+    public function findProductByNoCategorie()
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        WHERE prod.categorie IS NULL
+        ");
+
+        return $query->getResult();
+    }
+
+
+    //Afficher les catégories n'ayant pas d'image
+
+    public function findCategorieWithtoutImage($image)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        WHERE prod.categorie.title ==
+        ")
+            ->setParameter();
+
+        return $query->getResult();
+    }
+/*
+    //Afficher la légende de l'image dont la position de la catégorie est la plus élevée
+
+    public function findCategorieWithtoutImage($titre)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        WHERE prod.categorie.title == NULL AND prod.categorie.marque = :marque
+        ")
+            ->setParameter();
+
+        return $query->getResult();
+    }
+
+    //Afficher l'image de la catégorie dont le l'id du produit est 1 (faire en sorte que l'id soit dynamique)
+
+    public function findCategorieWithtoutImage($titre)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        WHERE prod.categorie.title == NULL AND prod.categorie.marque = :marque
+        ")
+            ->setParameter();
+
+        return $query->getResult();
+    }
+
+    //Afficher la catégorie dont la légende de l'image est la plus grande
+
+    public function findCategorieWithtoutImage($titre)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+        WHERE prod.categorie.title == NULL AND prod.categorie.marque = :marque
+        ")
+            ->setParameter();
+
+        return $query->getResult();
+    }
+*/
+
+
+
+
+
+
+
+
+
 }

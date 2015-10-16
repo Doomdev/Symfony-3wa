@@ -1,0 +1,56 @@
+- Afficher les produits dont la catégorie est "Accueil"
+- Afficher les produits qui n'ont pas de catégorie
+- Afficher le nombre de produit par catégorie (récupérer le titre de la catégorie) Essayer d'afficher cela dans un "camembert"
+- Afficher la catégorie du produit le plus cher sachant que la catégorie doit être active
+- Afficher les catégories n'ayant pas d'image
+- Afficher la légende de l'image dont la position de la catégorie est la plus élevée
+- Afficher l'image de la catégorie dont le l'id du produit est 1 (faire en sorte que l'id soit dynamique)
+- Afficher la catégorie dont la légende de l'image est la plus grande
+- Afficher le produit dont la description contient le mot "lorem"
+
+
+
+<script>
+
+  products = [
+
+         [
+          "nb" => 12,
+          "title" => "Accueil"
+        ]
+            ]
+
+  var PieData = [
+      {% for prod in products %}
+      {
+          value: {{ prod.nb }},
+          color: "#f56954",a
+          highlight: "#f56954",
+          label: "{{ prod.title }}"
+      },
+      {% endfor %}
+  ];
+
+
+// Effacer PieData dans dashboard2.js
+</script>
+
+
+
+//Dans ProductRepository
+public function findNbProductByCategory()
+    {
+        $query=$this->getEntityManager()->createQuery("
+                SELECT count(prod.id) as nb, cat.title
+                FROM TroiswaBackBundle:Product prod
+                LEFT JOIN prod.categorie cat
+                WHERE prod.categorie is not null
+                GROUP BY cat
+        ");
+        //die(dump($query->getResult()));
+        return $query->getResult();
+    }
+}
+
+
+----------------------------------------------------------

@@ -228,8 +228,15 @@ class MainController extends Controller
         $product = $em->getRepository("TroiswaBackBundle:Product")
             // equivalent de ->find(id)
             ->findPerso(14);
-        die(dump($product));
+       // die(dump($product));
+
+
+
+        $em->getRepository("TroiswaBackBundle:Product")
+        ->findProductByAccueil('Accueil');
 
         return $this->render("TroiswaBackBundle:Main:admin.html.twig");
+
+
     }
 }

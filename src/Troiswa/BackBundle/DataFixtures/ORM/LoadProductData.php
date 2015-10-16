@@ -14,6 +14,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        /*
         $product = new Product();
         $product->setTitle('Catégorie hello');
         $product->setDescription('Description ');
@@ -23,6 +24,34 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         $product->setCategorie($categories);
         $manager->persist($product);
         $manager->flush();
+
+        */
+
+        $faker = \Faker\Factory::create('fr_FR');
+
+        // generate data by accessing properties
+        /*
+        echo $faker->name;
+        die;
+        */
+
+
+        for ($i = 0; $i < 10; $i++){
+
+            $product = new Product();
+            $product->setTitle($faker->text(10));
+            $product->setDescription($faker->text());
+            $product->setQuantity($faker->randomDigitNotNull);
+            $product->setPrice($faker->randomFloat(2,0,1000));
+            $category=$this->getReference("categ");
+            $product->setCategorie($category);
+            $product->setMarque($manager->getRepository('TroiswaBackBundle:Marque')->find(1));
+            $manager->persist($product);
+            $manager->flush();
+        }
+
+
+
     }
 
     /**

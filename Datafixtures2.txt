@@ -1,0 +1,67 @@
+php composer.phar require fzaninotto/faker
+
+
+
+
+<?php
+
+namespace Troiswa\BackBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Troiswa\BackBundle\Entity\Category;
+
+
+class LoadProductData implements FixtureInterface
+{
+
+    public function load(ObjectManager $manager)
+    {
+      $faker = \Faker\Factory::create('fr_FR');
+
+      // generate data by accessing properties
+      echo $faker->name;
+      die;
+
+      //$faker->randomElement($category)
+
+      for ($i = 0; $i < 10; $i++)
+      {
+        $product = new Product();
+        $product->setTitle($faker->text(10));
+        $product->setDescription($faker->text());
+        $product->setQuantity($faker->randomDigitNotNull);
+        $product->setPrice($faker->randomFloat(2,0,1000));
+        $product->setReference($faker->randomLetter);
+        $product->setActivate($faker->numberBetween(0,1));
+        $category=$this->getReference("categ");
+        $product->setCategory($category);
+      }
+    }
+}
+
+
+class LoadProductData implements FixtureInterface
+{
+
+    public function load(ObjectManager $manager)
+    {
+      $faker = \Faker\Factory::create('fr_FR');
+
+      $category = new Category();
+      $category->setTitle($faker->text(20));
+      .....
+      .....
+      ......
+      ........
+
+      $manager->persist($category);
+      $manager->flush();
+
+      $this->addReference('categ', $category);
+    }
+}
+
+
+php app/console doctrine:fixture:load --append

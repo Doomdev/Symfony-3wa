@@ -14,6 +14,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     */
     public function load(ObjectManager $manager)
     {
+
         $category = new Categorie();
         $category->setTitle('Catégorie hello');
         $category->setDescription('Description ');
@@ -23,6 +24,15 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
 
         $this->addReference("categ",$category);
+         /*
+        $faker = \Faker\Factory::create();
+
+        // generate data by accessing properties
+        echo $faker->name;
+        die;
+         */
+
+
     }
 
     /**
