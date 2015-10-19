@@ -1,0 +1,8 @@
+troiswa_back_page_commentaire_index:
+    path:     /commentaire
+    defaults: { _controller: TroiswaBackBundle:Commentaire:commentaire }
+
+
+troiswa_back_page_commentaire_active:
+    path:     /commentaire/active/{id}
+    defaults: { _controller: TroiswaBackBundle:Commentaire:checkbox }

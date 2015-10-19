@@ -7,21 +7,49 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Troiswa\BackBundle\Entity\Commentaire;
 use Troiswa\BackBundle\Entity\Product;
+use Troiswa\BackBundle\Form\CommentaireType;
 use Troiswa\BackBundle\Form\ProductType;
 
 
 class ProduitController extends Controller
 {
 
-    public function showAction($id)
+    public function showAction($id,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $products = $em->getRepository('TroiswaBackBundle:Product')
             ->find($id);
 
+        $comment = new Commentaire();
+        $comment->setProduct($products);
+
+        $formCommentaire = $this->createForm(new CommentaireType(), $comment);
+
+        $formCommentaire->handleRequest($request);
+
+        if ($formCommentaire->isValid()) {
+
+            //die(dump($product));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush($comment);
+        }
+
+
+        $commentaire = $em->getRepository('TroiswaBackBundle:Commentaire')
+            ->findBy(["product" => $products, 'active' => 1], ["dateCreation" => "DESC"]);
+
+
+
+
+
         return $this->render("TroiswaBackBundle:produit:produit.html.twig",array("id" => $id,
-                                                                                "product" => $products
+                                                                                "product" => $products,
+                                                                                'formCommentaire' => $formCommentaire->createview(),
+                                                                                "commentaire" =>$commentaire
+
         ));
     }
 

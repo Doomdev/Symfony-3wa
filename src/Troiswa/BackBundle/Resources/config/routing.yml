@@ -29,6 +29,10 @@ troiswa_back_ressource_categorie:
     resource: "@TroiswaBackBundle/Resources/config/Routing/categorie.yml"
     prefix:   /
 
+troiswa_back_ressource_commentaire:
+    resource: "@TroiswaBackBundle/Resources/config/Routing/commentaire.yml"
+    prefix:   /
+
 troiswa_back_page_bo:
     path:     /
     defaults: { _controller: TroiswaBackBundle:Main:admin }
@@ -51,4 +55,6 @@ troiswa_back_page_categorie:
 troiswa_back_page_categoriedetail:
     path:     /categoriedetail/{id}
     defaults: { _controller: TroiswaBackBundle:Categorie:show }
+
+
 

@@ -27,7 +27,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
 
         */
 
-        $faker = \Faker\Factory::create('fr_FR');
+
 
         // generate data by accessing properties
         /*
@@ -35,7 +35,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         die;
         */
 
-
+        /*
         for ($i = 0; $i < 10; $i++){
 
             $product = new Product();
@@ -48,11 +48,27 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
             $product->setMarque($manager->getRepository('TroiswaBackBundle:Marque')->find(1));
             $manager->persist($product);
             $manager->flush();
+
+
+
+         */
+
+        $faker = \Faker\Factory::create('fr_FR');
+        for ($i = 0; $i < 10; $i++) {
+            $product = new Product();
+            $product->setTitle($faker->text(10));
+            $product->setDescription($faker->text());
+            $product->setQuantity($faker->randomDigitNotNull);
+            $product->setPrice($faker->randomFloat(2, 0, 1000));
+            $product->setMarque($manager->getRepository('TroiswaBackBundle:Marque')->find(1));
+            $categorie = $this->getReference("categ_" .$i);
+            $product->setCategorie($categorie);
+
+            $manager->persist($product);
+            $manager->flush();
+        }
         }
 
-
-
-    }
 
     /**
      * Get the order of this fixture

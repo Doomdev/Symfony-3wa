@@ -7,7 +7,7 @@
     <title> liste produit </title>
 
     <p> nouveau contenu</p>
-{{ dump(product) }}
+
 <p>Categorie : {{ product.categorie.title }}</p>
     Id : {{ product.id }} </br>
     Title : {{ product.title  }} </br>
@@ -19,7 +19,60 @@
 
     <td><a href="{{ path('troiswa_back_page_edit',{  'id' : product.id}) }}">{{ product.title }}</a></td>
 
+ {{ form_start(formCommentaire, {attr:{novalidate:"novalidate"}}) }}
 
+
+    {% if formCommentaire.auteur.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formCommentaire.auteur, "Auteur",{label_attr : {class:"control-label"},id:"label2"  }) }}
+    {{ form_widget(formCommentaire.auteur, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formCommentaire.auteur.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formCommentaire.contenu.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formCommentaire.contenu, "Contenu",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formCommentaire.contenu, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formCommentaire.contenu.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+    {% if formCommentaire.note.vars.errors | length %}
+        <div class="has-error">
+    {% endif %}
+
+    {{ form_label(formCommentaire.note, " Note",{label_attr : {class:"form-label"},id:"label2"  }) }}
+    {{ form_widget(formCommentaire.note, {attr : {class:"form-control"},id:" form-control2"  }) }}
+
+    {% if formCommentaire.note.vars.errors | length %}
+        </div>
+    {% endif %}
+
+
+
+
+
+
+     {{ form_end(formCommentaire) }}
+
+
+
+     {% for comment in commentaire %}
+     {{ comment.id }}
+     {{ comment.auteur }}
+     {{ comment.contenu }}
+     {{ comment.note }}
+     {{ comment.dateCreation | date("m/d/Y")}}
+     {% endfor %}
 
 {% endblock %}
 

@@ -1,0 +1,59 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+
+{% block content %}
+
+    <title> liste produit </title>
+
+    <p> nouveau contenu</p>
+    <a class="btn btn-block btn-primary" href="{{ path('troiswa_back_page_create') }}">Créer un produit</a>
+    <div class="box-body table-responsive no-padding">
+        <div id="productdetail">
+            <table class="table table-hover">
+                <tr>
+                    <th>Id</th>
+                    <th>Auteur</th>
+                    <th>Contenu</th>
+                    <th>Note</th>
+                    <th>Date de creation</th>
+                    <th>Active</th>
+                </tr>
+                {% for commentaires in commentaire %}
+                    {#
+                        {% if products.categorie %}
+                            {{ products.categorie.title }}
+                        {% endif %}
+
+                    #}
+
+                    <tr>
+                        <td>{{ commentaires.id }}</td>
+                        <td>{{ commentaires.auteur  }}</td>
+                        <td>{{ commentaires.contenu  }}</td>
+                        <td>{{ commentaires.note  }}</td>
+
+                        <td>{{ commentaires.dateCreation | date("now") }}</td>
+                        <td>
+                            {% if commentaires.active == 1 %}
+                                <a href="{{ path('troiswa_back_page_commentaire_active', {id:commentaires.id}) }}" class="btn btn-block btn-danger btn-sm">Désactive</a>
+                            {% else %}
+                                <a href="{{ path('troiswa_back_page_commentaire_active', {id:commentaires.id}) }}" class="btn btn-block btn-primary btn-sm">Active</a>
+                            {% endif %}
+                        </td>
+
+
+
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div><!-- /.box-body -->
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}
+
