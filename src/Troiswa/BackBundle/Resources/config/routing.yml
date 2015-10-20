@@ -1,3 +1,7 @@
+troiswa_back_marque:
+    resource: "@TroiswaBackBundle/Resources/config/routing/marque.yml"
+    prefix:   /marque
+
 # -------------------- ROUTE DE TEST --------------------
 troiswa_back_homepage:
     path:     /hello/{name}

@@ -1,0 +1,75 @@
+ 
+/Controller/
+/Entity/
+/Validator/
+  AntiGrosMots.php
+  AntiGrosMotsValidator.php
+
+
+
+<?php
+
+namespace Troiswa\BackBundle\Validator;
+
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * permet d'utiliser cette contraintes en annotation
+ * @Annotation
+ */
+class Antigrosmots extends Constraint
+{
+  public $message = "Un gros mot a été trouvé";
+
+
+  public $minmessage = "Un gros mot a été trouvé";
+
+	public $toto = 2;
+}
+
+
+
+<?php
+
+namespace Troiswa\BackBundle\Validator;
+
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+
+class AntigrosmotsValidator extends ConstraintValidator
+{
+  public function validate($value, Constraint $constraint)
+  {
+    /*
+    if (count($value) < $constraint->min)
+    {
+      $this->context->buildViolation($constraint->minmessage)
+    						->addViolation();
+    }
+    */
+    $grosMots = ["fuck"];
+    foreach($grosMots as $mot)
+    {
+      if (preg_match("#\b(".$mot.")\b#ui", $value))
+      {
+        $this->context->buildViolation($constraint->message)
+    						->addViolation();
+        return;
+      }
+    }
+  }
+}
+
+
+use Troiswa\BackBundle\Validator\Antigrosmots;
+
+
+class Marque
+{
+  
+  /**
+  * @Antigrosmots(message="redefinition du message")
+  */
+  private $titre;
+  
+}

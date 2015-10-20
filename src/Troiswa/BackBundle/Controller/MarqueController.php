@@ -4,16 +4,14 @@ namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Troiswa\BackBundle\Entity\Marque;
 use Troiswa\BackBundle\Form\MarqueType;
 
 /**
  * Marque controller.
  *
- * @Route("/marque")
  */
 class MarqueController extends Controller
 {
@@ -21,9 +19,6 @@ class MarqueController extends Controller
     /**
      * Lists all Marque entities.
      *
-     * @Route("/", name="marque")
-     * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -31,16 +26,13 @@ class MarqueController extends Controller
 
         $entities = $em->getRepository('TroiswaBackBundle:Marque')->findAll();
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
     /**
      * Creates a new Marque entity.
      *
-     * @Route("/", name="marque_create")
-     * @Method("POST")
-     * @Template("TroiswaBackBundle:Marque:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -56,10 +48,10 @@ class MarqueController extends Controller
             return $this->redirect($this->generateUrl('marque_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
@@ -84,52 +76,45 @@ class MarqueController extends Controller
     /**
      * Displays a form to create a new Marque entity.
      *
-     * @Route("/new", name="marque_new")
-     * @Method("GET")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Marque();
         $form   = $this->createCreateForm($entity);
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Finds and displays a Marque entity.
-     *
-     * @Route("/{id}", name="marque_show")
-     * @Method("GET")
-     * @Template()
+     * @ParamConverter("entity",class="TroiswaBackBundle:Marque", options = {"mapping" : {"id" = "slug"}})
      */
-    public function showAction($id)
+    public function showAction(Marque $entity)
     {
+       // die(dump($entity));
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('TroiswaBackBundle:Marque')->find($id);
+       // $entity = $em->getRepository('TroiswaBackBundle:Marque')->findOneBy(["slug"=>$id]);
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Marque entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($entity->getId());
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing Marque entity.
      *
-     * @Route("/{id}/edit", name="marque_edit")
-     * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -144,11 +129,11 @@ class MarqueController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -172,9 +157,6 @@ class MarqueController extends Controller
     /**
      * Edits an existing Marque entity.
      *
-     * @Route("/{id}", name="marque_update")
-     * @Method("PUT")
-     * @Template("TroiswaBackBundle:Marque:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -196,17 +178,15 @@ class MarqueController extends Controller
             return $this->redirect($this->generateUrl('marque_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('TroiswaBackBundle:Marque:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
     /**
      * Deletes a Marque entity.
      *
-     * @Route("/{id}", name="marque_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

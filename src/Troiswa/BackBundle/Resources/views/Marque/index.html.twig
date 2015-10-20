@@ -8,6 +8,7 @@
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
+                <th>Dateupdate</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,10 +17,11 @@
             <tr>
                 <td><a href="{{ path('marque_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.titre }}</td>
+                <td>{% if entity.dateUpdate %}{{ entity.dateUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('marque_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('marque_show', { 'id': entity.slug }) }}">show</a>
                     </li>
                     <li>
                         <a href="{{ path('marque_edit', { 'id': entity.id }) }}">edit</a>

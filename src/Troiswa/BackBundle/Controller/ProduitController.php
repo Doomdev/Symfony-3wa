@@ -11,16 +11,20 @@ use Troiswa\BackBundle\Entity\Commentaire;
 use Troiswa\BackBundle\Entity\Product;
 use Troiswa\BackBundle\Form\CommentaireType;
 use Troiswa\BackBundle\Form\ProductType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ProduitController extends Controller
 {
 
-    public function showAction($id,Request $request)
+    /**
+     *
+     * @ParamConverter("products", options={"repository_method" = "findProductWithComment"})
+     */
+    public function showAction($id,Request $request, Product $products)
     {
         $em = $this->getDoctrine()->getManager();
-        $products = $em->getRepository('TroiswaBackBundle:Product')
-            ->find($id);
+        /*$products = $em->getRepository('TroiswaBackBundle:Product')
+            ->find($id);*/
 
         $comment = new Commentaire();
         $comment->setProduct($products);
@@ -66,9 +70,18 @@ class ProduitController extends Controller
                        //->findAll();
                         ->findAllProdctCategory();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
 
 
-        return $this->render("TroiswaBackBundle:produit:index.html.twig", array("product"=>$products));
+
+        return $this->render("TroiswaBackBundle:produit:index.html.twig", array("product"=>$products,
+                                                                                'pagination' => $pagination
+        ));
     }
 
 

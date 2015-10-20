@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Commentaire
  *
  * @ORM\Table(name="commentaire")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\CommentaireRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\CommentaireRepository")
  */
 class Commentaire
 {
@@ -51,7 +51,8 @@ class Commentaire
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="commentaires")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
      */
     private $product;
 
@@ -61,6 +62,8 @@ class Commentaire
      * @ORM\Column(name="active", type="boolean")
      */
     private $active;
+
+
 
     public function __construct(){
         $this->dateCreation = new \DateTime("now");

@@ -74,6 +74,15 @@
      {{ comment.dateCreation | date("m/d/Y")}}
      {% endfor %}
 
+
+     {{ product.title }}
+
+     {% for comment in product.commentaires if comment.active %}
+
+     {{ comment.auteur }}
+
+     {% endfor %}
+
 {% endblock %}
 
 {% block sidebar  %}

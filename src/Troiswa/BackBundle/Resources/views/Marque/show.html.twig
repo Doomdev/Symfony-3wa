@@ -13,8 +13,13 @@
                 <th>Titre</th>
                 <td>{{ entity.titre }}</td>
             </tr>
+            <tr>
+                <th>Dateupdate</th>
+                <td>{{ entity.dateUpdate|date('Y-m-d H:i:s') }}</td>
+            </tr>
         </tbody>
     </table>
+
 
         <ul class="record_actions">
     <li>

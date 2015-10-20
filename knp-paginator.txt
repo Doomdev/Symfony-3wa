@@ -1,0 +1,49 @@
+
+public function listAction(Request $request)
+{
+    $em    = $this->get('doctrine.orm.entity_manager');
+    $dql   = "SELECT mar FROM TroiswaBackBundle:Marque mar";
+    $query = $em->createQuery($dql);
+
+    $paginator  = $this->get('knp_paginator');
+    $entities = $paginator->paginate(
+        $query,
+      	// $request->query = $_GET[]     $_GET['page']
+        $request->query->getInt('page', 1)/*page number*/, // marque/adidas/show?page=2
+        5/*limit per page*/
+    );
+
+    // parameters to template
+    return $this->render('AcmeMainBundle:Article:list.html.twig', array('entities' => $entities));
+}
+
+
+
+
+<div class="count">
+    {{ entities.getTotalItemCount }}
+</div>
+<table>
+<tr>
+
+    <th>{{ knp_pagination_sortable(entities, 'label pour utilisateir', 'mar.id') }}</th>
+</tr>
+
+
+{% for marque in entities %}
+<tr {% if loop.index is odd %}class="color"{% endif %}>
+    <td>{{ marque.id }}</td>
+    <td>{{ marque.title }}</td>
+</tr>
+{% endfor %}
+
+
+
+
+
+
+</table>
+
+<div class="navigation">
+    {{ knp_pagination_render(entities) }}
+</div>a

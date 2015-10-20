@@ -1,0 +1,43 @@
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+class MarqueController
+{
+  /**
+  * path: /marque/{id}/show
+  * entity = nom de la variable
+  * id = variable du routing
+  * slug = nom de la colonne dans la base de données
+  * @ParamConverter("entity", options={"id" = slug})
+  */
+  public function showAction(Marque $entity)
+  {
+
+  }
+
+}
+Permet d'aller recuperer  les commentaire de chaque produit, en allant cherecher sa requete personnalisé dans le repository.
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+class ProductController extends Controller
+{
+
+  		/**
+      *
+      * @ParamConverter("product", options={"repository_method" = "findProductWithComments"})
+      */
+     public function detailsAction(Request $request, Product $product)
+    {
+
+        //recuperer doctrine
+        $em = $this->getDoctrine()->getManager();
+
+
+
+        if(!isset($product))
+            throw $this->createNotFoundException("Le produit n'exite pas");
+
+        return $this->render("WwwBackBundle:Produit:details.html.twig",array("produit" => $product));
+
+    }
+
+}

@@ -70,6 +70,11 @@ class Product
      */
     private $marque;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="product", cascade={"remove"})
+     */
+    private $commentaires;
+
 
 
     public function __construct(){
@@ -78,13 +83,13 @@ class Product
     }
 
 
+
+
     /**
      * Get id
      *
      * @return integer
      */
-
-
     public function getId()
     {
         return $this->id;
@@ -234,8 +239,6 @@ class Product
         return $this->categorie;
     }
 
-
-
     /**
      * Set marque
      *
@@ -258,5 +261,39 @@ class Product
     public function getMarque()
     {
         return $this->marque;
+    }
+
+    /**
+     * Add commentaire
+     *
+     * @param \Troiswa\BackBundle\Entity\Commentaire $commentaire
+     *
+     * @return Product
+     */
+    public function addCommentaire(\Troiswa\BackBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Troiswa\BackBundle\Entity\Commentaire $commentaire
+     */
+    public function removeCommentaire(\Troiswa\BackBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
     }
 }

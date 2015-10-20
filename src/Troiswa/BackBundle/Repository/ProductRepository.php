@@ -143,6 +143,35 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function findProductWithComment($id)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod , com
+        FROM TroiswaBackBundle:Product prod
+        LEFT JOIN prod.commentaires com
+        WHERE prod.id =:idProd
+        ")
+            ->setParameter('idProd', $id);
+
+        return $query->getSingleResult();
+    }
+
+    public function findPage($id)
+    {
+
+        $query= $this->getEntityManager()
+            ->createQuery("
+        SELECT prod
+        FROM TroiswaBackBundle:Product prod
+
+        ")
+
+
+        return $query->getSingleResult();
+    }
 /*
     //Afficher la légende de l'image dont la position de la catégorie est la plus élevée
 
