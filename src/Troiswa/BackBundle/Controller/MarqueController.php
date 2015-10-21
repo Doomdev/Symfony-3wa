@@ -4,7 +4,6 @@ namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Troiswa\BackBundle\Entity\Marque;
 use Troiswa\BackBundle\Form\MarqueType;
@@ -13,7 +12,7 @@ use Troiswa\BackBundle\Form\MarqueType;
  * Marque controller.
  *
  */
-class MarqueController extends Controller
+class MarqueController extends BaseController
 {
 
     /**
@@ -94,8 +93,28 @@ class MarqueController extends Controller
      */
     public function showAction(Marque $entity)
     {
+        /*
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        // Simple example
+        $breadcrumbs->addItem("Back-office", $this->generateUrl("troiswa_back_page_bo"));
+        $breadcrumbs->addItem("Marque", $this->generateUrl("marque"));
+        $breadcrumbs->addItem($entity->getTitre(), $this->generateUrl("marque_show", [
+            'id' => $entity->getSlug()
+        ]));
+        */
+
+        $this->breadcrumbs(
+            [
+                'Marque' => $this->generateUrl("marque"),
+                $entity->getTitre() =>  ''
+				]
+    );
+
+
        // die(dump($entity));
         $em = $this->getDoctrine()->getManager();
+
+
 
        // $entity = $em->getRepository('TroiswaBackBundle:Marque')->findOneBy(["slug"=>$id]);
 

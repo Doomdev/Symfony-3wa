@@ -167,7 +167,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         SELECT prod
         FROM TroiswaBackBundle:Product prod
 
-        ")
+        ");
 
 
         return $query->getSingleResult();
@@ -221,13 +221,5 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 */
-
-
-
-
-
-
-
-
 
 }

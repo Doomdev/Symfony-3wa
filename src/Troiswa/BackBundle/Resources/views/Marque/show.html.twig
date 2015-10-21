@@ -1,6 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+
+
+    {{ wo_render_breadcrumbs() }}
+
+    {{ dump(entity) }}
     <h1>Marque</h1>
 
     <table class="record_properties">
@@ -19,6 +24,15 @@
             </tr>
         </tbody>
     </table>
+
+
+    {% for unTag in entity.tags %}
+        {{ unTag.nom }}
+
+
+    {% endfor %}
+
+    {{ dump(entity.tags) }}
 
 
         <ul class="record_actions">

@@ -1,0 +1,55 @@
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Troiswa\BackBundle\Controller\BaseController;
+
+class MarqueController extends BaseController
+{
+  public function showAction(Marque $marque)
+  {
+  	/*
+  	$breadcrumbs = $this->get("white_october_breadcrumbs");
+  	$breadcrumbs->addItem("Dashboard", $this->generateUrl("troiswa_back_page_bo"));
+  	$breadcrumbs->addItem("Marque", $this->generateUrl("troiswa_back_marque"));
+  	$breadcrumbs->addItem($marque->getTitle(), $this->generateUrl("troiswa_back_marque_show", ['id' => $marque->getSlug()]));
+    */
+  	$this->breadcrumbs(
+  			[
+  					'Marque' => $this->generateUrl("troiswa_back_marque"),
+  					$marque->getTitle() => $this->generateUrl("troiswa_back_marque_show", ['id' => $marque->getSlug()],
+            'du simple text' => ''
+				]
+    );
+  }
+}
+
+
+
+Controllers/
+  BaseController.php
+
+
+namespace Troiswa\BackBundle\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class BaseController extends Controller
+{
+
+  public function breadcrumbs($items)
+  {
+  	$breadcrumbs = $this->get("white_october_breadcrumbs");
+  	$breadcrumbs->addItem("Dashboard", $this->generateUrl("troiswa_back_page_bo"));
+    foreach($items as $label => $url)
+    {
+      if (!empty($url))
+      {
+      	$breadcrumbs->addItem($label, $url);
+      }
+      else
+      {
+        $breadcrumbs->addItem($label);
+      }
+    }
+
+  }
+
+
+}
