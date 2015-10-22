@@ -1,3 +1,7 @@
+troiswa_back_tags:
+    resource: "@TroiswaBackBundle/Resources/config/routing/tags.yml"
+    prefix:   /tags
+
 troiswa_back_marque:
     resource: "@TroiswaBackBundle/Resources/config/routing/marque.yml"
     prefix:   /marque

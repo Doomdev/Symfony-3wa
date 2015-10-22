@@ -33,6 +33,7 @@
             <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_about" %} href="{{ path('troiswa_back_page_about') }}"{% endif %}><i class=""></i> <span>About</span></a></li>
             <li><a {% if app.request.attributes.get('_route') !=  "troiswa_back_page_contact" %} href="{{ path('troiswa_back_page_contact') }}"{% endif %}><i class=""></i> <span>Contact</span></a></li>
             {{  render(controller('TroiswaBackBundle:Categorie:renderAllCategorie')) }}
+            {#{{  render(controller('TroiswaBackBundle:Marque:renderAllTag')) }}#}
             <li class="header">LABELS</li>
 
         </ul>

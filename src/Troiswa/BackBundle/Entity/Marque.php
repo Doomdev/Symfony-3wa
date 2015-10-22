@@ -42,7 +42,7 @@ class Marque
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tags")
+     * @ORM\ManyToMany(targetEntity="Tags", inversedBy="marques", cascade={"persist"})
      * @ORM\JoinTable(name="marque_tag",
      *    joinColumns={
      *				@ORM\JoinColumn(name="marque_id", referencedColumnName="id")

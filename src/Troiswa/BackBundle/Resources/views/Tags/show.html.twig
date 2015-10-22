@@ -2,12 +2,8 @@
 
 {% block body -%}
 
-
-    {{ wo_render_breadcrumbs() }}
-
+    <h1>Tags</h1>
     {{ dump(entity) }}
-    <h1>Marque</h1>
-
     <table class="record_properties">
         <tbody>
             <tr>
@@ -15,44 +11,23 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Titre</th>
-                <td>{{ entity.titre }}</td>
-            </tr>
-            <tr>
-                <th>Dateupdate</th>
-                <td>{{ entity.dateUpdate|date('Y-m-d H:i:s') }}</td>
+                <th>Nom</th>
+                <td>{{ entity.nom }}</td>
             </tr>
         </tbody>
     </table>
 
-
-    {% for unTag in entity.tags %}
-        {{ unTag.nom }}
-
-
-    {% endfor %}
-
-    {{ dump(entity.tags) }}
-
-
         <ul class="record_actions">
     <li>
-        <a href="{{ path('marque') }}">
+        <a href="{{ path('tags') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('marque_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('tags_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
-
-
-
 {% endblock %}
-
-
-
-

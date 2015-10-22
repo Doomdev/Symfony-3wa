@@ -1,15 +1,58 @@
-{% extends '::base.html.twig' %}
+{% extends 'TroiswaBackBundle::layout.html.twig' %}
 
-{% block body -%}
+{% block content -%}
     <h1>Marque creation</h1>
 
-    {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('marque') }}">
-            Back to the list
-        </a>
-    </li>
+    {{ form_start(form) }}
+        <a href="#" id="add-another-email">Ajout un tag</a>
+        <ul class="record_actions" id="email-fields-list"
+            data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}">
+            {% for tagField in form.tags %}
+            <li>
+                {{ form_errors(tagField) }}
+                {{ form_widget(tagField) }}
+
+            </li>
+            {% endfor %}
+
 </ul>
+    {{ form_end(form) }}
+
+
+<a id="add-another-email" href="{{ path('marque') }}">
+    Back to the list
+</a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        // keep track of how many email fields have been rendered
+        var emailCount = '{{ form.tags|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-email').click(function(e) {
+                e.preventDefault();
+
+                var emailList = jQuery('#email-fields-list');
+
+                // grab the prototype template
+                var newWidget = emailList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, emailCount);
+                emailCount++;
+
+                // create a new list element and add it to the list
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(emailList);
+            });
+        })
+
+
+    </script>
 {% endblock %}

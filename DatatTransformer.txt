@@ -1,0 +1,128 @@
+- - Afficher sur le dashboard les trois produits les mieux notés
+ - Dans les notifications (petit drapeau dans le header), afficher le nombre de commentaire non actifs
+ - Dans les notifications (petit drapeau dans le header) afficher les catégories sans photo
+ - Dans les notifications (petit drapeau dans le header) afficher les catégories non actives
+ - Dans les notifications (petite cloche dans le header) afficher le nombre de produit dont la quantité est inférieur à 5
+
+https://github.com/whiteoctober/BreadcrumbsBundle
+https://packagist.org/
+
+http://www.catchmyfame.com/wp-content/uploads/2009/09/serialize.gif
+
+http://www.soliantconsulting.com/wp-content/uploads/2011/12/how-to-parse-JSON-1.png
+
+
+
+http://symfony.com/doc/current/reference/forms/types/collection.html#by-reference
+
+http://stackoverflow.com/questions/23965860/symfony2-entities-not-linking-via-manytomany
+
+private function createCreateForm(Marque $entity)
+    {
+      /*
+        $marqueType = new MarqueType();
+        $marqueType->setDoctrine($this->getDoctrine()->getManager());
+      */
+
+        $form = $this->createForm(new MarqueType($this->getDoctrine()->getManager())), $entity, array(
+            'action' => $this->generateUrl('marque_create'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
+--------------------------------
+MarqueType.php
+---------------------------------
+
+  private $em;
+
+  public function __construct($doctrine = null)
+	{
+    $this->em = $doctrine;
+  }
+
+  public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+
+          $builder->add().......
+
+          ->add();
+
+
+          $builder->add(
+            $builder->create('tags','collection',array(
+                 'type'=>new TagsWithoutProductType(),
+
+                ))->addModelTransformer(new TagTransformer($this->em))
+            );
+    }
+
+
+
+--------------------------------
+End     MarqueType.php
+---------------------------------
+
+<?php
+
+namespace TroisWA\BackBundle\Form\DataTransformer;
+
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+use Doctrine\Common\Persistence\ObjectManager;
+
+
+class TagTransformer implements DataTransformerInterface
+{
+    private $em;
+
+    public function __construct($doctrine = null)
+    {
+      $this->em = $doctrine;
+    }
+
+    public function transform($tags)
+    {
+        // TODO: Implement transform() method.
+      return $tags;
+    }
+
+
+    public function reverseTransform($tags)
+    {
+      //die(dump($this->em));
+        // TODO: Implement reverseTransform() method.
+
+
+      $allTags = [];
+
+      foreach($tags as $tag)
+      {
+
+
+        $oneTag = $this->em->getRepository('TroiswaBackBundle:Tag')
+        								->findOneBy(['nom' => $tag->getNom()]);
+
+
+        // Si le tag existe dans la BDD
+        if ($oneTag)
+        {
+          array_push($allTags, $oneTag);
+        }
+        // Le tag n'existe pas dans la BDD
+        else
+        {
+          array_push($allTags, $tag);
+        }
+
+      }
+
+      die(dump($allTags));
+
+      return $allTags;
+    }
+}
