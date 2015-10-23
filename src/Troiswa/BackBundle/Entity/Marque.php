@@ -153,14 +153,16 @@ class Marque
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+
     /**
      * Add tag
      *
-     * @param \Troiswa\BackBundle\Entity\Tag $tag
+     * @param \Troiswa\BackBundle\Entity\Tags $tag
      *
      * @return Marque
      */
-    public function addTag(\Troiswa\BackBundle\Entity\Tag $tag)
+    public function addTag(\Troiswa\BackBundle\Entity\Tags $tag)
     {
         $this->tags[] = $tag;
 
@@ -170,9 +172,9 @@ class Marque
     /**
      * Remove tag
      *
-     * @param \Troiswa\BackBundle\Entity\Tag $tag
+     * @param \Troiswa\BackBundle\Entity\Tags $tag
      */
-    public function removeTag(\Troiswa\BackBundle\Entity\Tag $tag)
+    public function removeTag(\Troiswa\BackBundle\Entity\Tags $tag)
     {
         $this->tags->removeElement($tag);
     }

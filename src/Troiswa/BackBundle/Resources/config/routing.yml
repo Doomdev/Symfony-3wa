@@ -66,3 +66,16 @@ troiswa_back_page_categoriedetail:
 
 
 
+troiswa_back_page_panier:
+    path:     /panier
+    defaults: { _controller: TroiswaBackBundle:Cart:panier }
+
+
+troiswa_back_page_panier_ajout:
+    path:     /panier/add/{id}
+    defaults: { _controller: TroiswaBackBundle:Cart:add }
+
+
+troiswa_back_page_panier_delete:
+    path:     /panier/supprimer/{id}
+    defaults: { _controller: TroiswaBackBundle:Cart:delete }

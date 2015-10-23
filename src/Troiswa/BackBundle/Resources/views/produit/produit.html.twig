@@ -19,6 +19,9 @@
 
     <td><a href="{{ path('troiswa_back_page_edit',{  'id' : product.id}) }}">{{ product.title }}</a></td>
 
+    <td><a class="btn btn-block btn-danger btn-sm" href="{{ path('troiswa_back_page_panier_ajout',{  'id' : product.id}) }}">Ajouter au panier</a></td>
+
+
  {{ form_start(formCommentaire, {attr:{novalidate:"novalidate"}}) }}
 
 

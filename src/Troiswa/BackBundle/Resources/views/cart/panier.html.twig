@@ -1,0 +1,87 @@
+{% extends "TroiswaBackBundle::layout.html.twig" %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<h3>Votre panier</h3>
+{{ parent() }}
+
+
+
+{% for  allProduct in allProducts %}
+{{ dump(allProduct) }}
+{% endfor %}
+
+
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th style="width:20%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% set Total = 0 %}
+
+            {% for  allProduct in allProducts %}
+                {% set Total = Total + allProduct.price * quantity[allProduct.id]  %}
+            <tr>
+                <td data-th="Product">
+                    <div class="row">
+                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                        <div class="col-sm-10">
+                            <h4 class="nomargin">{{ allProduct.title }} </h4>
+                            <p>{{ allProduct.description }}</p>
+                        </div>
+                    </div>
+                </td>
+                <td data-th="Price">{{ allProduct.price }}</td>
+                <td data-th="Quantity">
+                    <input type="number" class="form-control text-center" value="{{ quantity[allProduct.id] }}">
+                </td>
+                <td data-th="Subtotal" class="text-center">{{ allProduct.price * quantity[allProduct.id] }}</td>
+                <td class="actions">
+                    <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                    <a href="{{ path('troiswa_back_page_panier_delete', {id:allProduct.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>Supprimer</a>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+            <tfoot>
+
+            <tr>
+                <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total {{ Total }}</strong></td>
+                <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+            </tr>
+
+            </tfoot>
+
+        </table>
+
+
+
+
+{% endblock %}
+
+{% block sidebar  %}
+
+{% endblock %}

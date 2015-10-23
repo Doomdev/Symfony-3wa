@@ -220,7 +220,15 @@ class MainController extends Controller
     public function adminAction()
     {
 
-
+        $utility = $this->get('troiswa_back.util');
+        echo $utility->slugify('salut ludo');
+        echo '<br>';
+        echo $utility->getText();
+        dump($utility);
+        die;
+        //dump($this->getDoctrine()->getManager());
+        //dump($this->getDoctrine()->getManager());
+        //die;
         //$mesImages = $instagram->getUserMedia($this->getParameter('id_instagram'));
         //die(dump($instagram->getLoginUrl()));
         //$instagram->setAccessToken($this->getParameter('token_instagram'));
@@ -244,8 +252,8 @@ class MainController extends Controller
         $fs = new Filesystem();
         $timeCache = time() - (1 * 60 );
 
-        dump(date ("F d Y H:i:s.", filemtime($file)));
-        dump(date ("F d Y H:i:s.", $timeCache));
+        //dump(date ("F d Y H:i:s.", filemtime($file)));
+        //dump(date ("F d Y H:i:s.", $timeCache));
 
         //die(dump($timeCache, filemtime($file)));
 
@@ -254,9 +262,9 @@ class MainController extends Controller
 
             // Récupération du contenu du fichier cacheinstagram
             $mesImages = unserialize(file_get_contents($file));
-            dump(file_get_contents($file));
-            dump($mesImages);
-            die('Utilisation du cache');
+           // dump(file_get_contents($file));
+            //dump($mesImages);
+           // die('Utilisation du cache');
         }
         else{
             //die(dump($this->getParameter('client_id_instagram')));
