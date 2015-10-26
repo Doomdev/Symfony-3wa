@@ -20,7 +20,7 @@
 {% for  allProduct in allProducts %}
 {{ dump(allProduct) }}
 {% endfor %}
-
+{{ dump(qtyProducts) }}
 
         <table id="cart" class="table table-hover table-condensed">
             <thead>
@@ -37,7 +37,7 @@
             {% set Total = 0 %}
 
             {% for  allProduct in allProducts %}
-                {% set Total = Total + allProduct.price * quantity[allProduct.id]  %}
+                {% set Total = Total + allProduct.price * qtyProducts[allProduct.id]  %}
             <tr>
                 <td data-th="Product">
                     <div class="row">
@@ -50,9 +50,9 @@
                 </td>
                 <td data-th="Price">{{ allProduct.price }}</td>
                 <td data-th="Quantity">
-                    <input type="number" class="form-control text-center" value="{{ quantity[allProduct.id] }}">
+                    <input type="number" class="form-control text-center" value="{{ qtyProducts[allProduct.id] }}">
                 </td>
-                <td data-th="Subtotal" class="text-center">{{ allProduct.price * quantity[allProduct.id] }}</td>
+                <td data-th="Subtotal" class="text-center">{{ allProduct.price * qtyProducts[allProduct.id] }}</td>
                 <td class="actions">
                     <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
                     <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>

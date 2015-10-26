@@ -2,10 +2,30 @@
 # http://symfony.com/doc/current/book/security.html
 security:
 
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Troiswa\BackBundle\Entity\User: plaintext
+
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
-            memory: ~
+            memory:
+              users:
+               #login
+               admin:
+                  password:  admin
+                  roles: ROLE_ADMIN #un role commence toujours par ROLE_
+               test: { password:test, roles: ROLE_COMMERCIAL}
+               gertrude: { password:azerty, roles: ROLE_SUPER_NANA}
+
+        user_admin:
+            entity: { class: Troiswa\BackBundle\Entity\User, property: login }
+
+    role_hierarchy:
+        # si j'essaie d'acceder a /product en tant que commercial sachant qu'un commmercial peut y acceder
+        # alors en tant qu'admin je pourrai également y acceder
+        ROLE_SUPER_NANA: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: ROLE_COMMERCIAL
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,12 +33,43 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        loginfirewall:
+            pattern: ^/admin/login$
+            security: false
+
         main:
-            anonymous: ~
+            pattern: ^/admin
+            anonymous: false
             # activate different ways to authenticate
+
+            #http_basic:
+             #   realm: "Zone sécurisé administration"
+              #  provider: in_memory
+
+            provider: user_admin
 
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
+            switch_user: { role: ROLE_SUPER_NANA, parameter: _changement_de_compte }
+
+            form_login:
+                login_path: troiswa_back_login
+                check_path: troiswa_back_login_check
+                default_target_path: troiswa_back_page_bo
+                always_use_default_target_path: false
+                csrf_provider: security.csrf.token_manager
+            logout:
+                path: troiswa_back_logout
+                target: /admin/login
+
+            remember_me:
+                key:      "%secret%"
+                lifetime: 172800
+
+
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_control:
+    - { path: ^/admin, role: ROLE_ADMIN }

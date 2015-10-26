@@ -1,0 +1,95 @@
+
+Creation de service : Panier session
+-------------------------------------
+class CartController extends Controller
+{
+  	public function addAction(Product $product, Request $request)
+    {
+      $panier = $this->get('troiswa_back.cart');
+      //die(dump($panier));
+      $panier->add($product);
+
+      return $this->redirectToRoute('troiswa_back_panier');
+    }
+
+
+    public function panierAction(Request $request)
+    {
+        $session = $request->getSession();
+        $allProducts = [];
+
+        if($session->get('panier'))
+        {
+            $em = $this->getDoctrine()->getManager();
+            $allProducts = $em->getRepository('TroiswaBackBundle:Product')->findProductByIdProduct(array_keys($session->get('panier')));
+
+        }
+        die(dump($allProducts));
+        return $this->render("TroiswaBackBundle:Cart:panier.html.twig", ['allproducts' => $allProducts]);
+
+
+    }
+}
+
+
+services.yml
+
+
+  troiswa_back.cart:
+		class: Troiswa\BackBundle\Util\Cart
+    arguments: [@doctrine.orm.entity_manager, @session]
+
+
+namespace Troiswa\BackBundle\Util;
+
+class Cart
+{
+  private $em;
+  private $session;
+
+  public function __construct(EntityManager $em, Session $session)
+  {
+    $this->em = $em;
+    $this->session = $session;
+  }
+
+  public function add(Product $product, $qty = 1)
+  {
+      	// Soit j'ai un tableau vide soit un tableau plein d'id produit
+        if($this->session->get('panier'))
+        {
+            $allProducts = $this->session->get('panier');
+        }
+        else
+        {
+          	$allProducts = [];
+        }
+
+
+      	// Traitement sur la quantité
+      	if (array_key_exists($product->getId(), $allProducts))
+        {
+          // $allProducts[$product->getId()]; représente la quantité du produit
+          $allProducts[$product->getId()] = $allProducts[$product->getId()] + $qty;
+          //$qty = $allProducts[$product->getId()] + $qty
+
+        }
+      	else
+        {
+          $allProducts[$product->getId()] = $qty;
+        }
+
+        $this->session->set('panier', $allProducts);
+  }
+}
+
+
+
+Il faut comme argument doctrine afin de faire la requête de récupération des produits et session
+arguments: [@doctrine.orm.entity_manager, @session]
+
+-------------------------------------------------------------------------------------------
+
+
+
+

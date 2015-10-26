@@ -1,0 +1,162 @@
+class CartController extends Controller
+{
+  	public function addAction(Product $product, Request $request)
+    {
+        $session = $request->getSession();
+
+        //$allProducts = [];
+        //die(dump($session->get('panier')));
+
+      	$session->remove('panier');
+
+      	// Soit j'ai un tableau vide soit un tableau plein d'id produit
+        if($session->get('panier'))
+        {
+            $allProducts = $session->get('panier');
+            //dump($allProducts);
+        }
+        else
+        {
+          	$allProducts = [];
+        }
+
+
+      	// Traitement sur la quantité
+      	if (array_key_exists($product->getId(), $allProducts))
+        {
+          // $allProducts[$product->getId()]; représente la quantité du produit
+          $allProducts[$product->getId()] = $allProducts[$product->getId()] + 1;
+
+        }
+      	else
+        {
+          $allProducts[$product->getId()] = 1;
+        }
+
+        $session->set('panier', $allProducts);
+        //die('traitement du produit dans le panier');
+        return $this->redirectToRoute('troiswa_back_panier');
+    }
+
+
+    public function panierAction(Request $request)
+    {
+        $session = $request->getSession();
+        $allProducts = [];
+
+        if($session->get('panier'))
+        {
+            $em = $this->getDoctrine()->getManager();
+            $allProducts = $em->getRepository('TroiswaBackBundle:Product')->findProductByIdProduct(array_keys($session->get('panier')));
+
+        }
+        die(dump($allProducts));
+        return $this->render("TroiswaBackBundle:Cart:panier.html.twig", ['allproducts' => $allProducts]);
+
+
+    }
+
+  public function deleteAction(Product $product, Request $request)
+  {
+    $session = $request->getSession();
+    $cart = $session->get('panier');
+
+    if ($cart && array_key_exists($product->getId(), $cart))
+    {
+      unset($cart[$product->getId()]);
+      $session->set('panier', $cart);
+    }
+
+    return $this->redirectToRoute('troiswa_back_panier');
+  }
+}
+
+
+public function findProductByIdProduct($idsProduct)
+{
+  $query = $this->getEntityManager()->createQuery(
+    "
+    	SELECT prod
+      FROM TroiswaBackBundle:Product prod
+      WHERE prod.id IN (:ids)
+    "
+  )->setParameter('ids', $idsProduct);
+
+  return $query->getResult();
+}
+
+http://symfony.com/doc/current/components/http_foundation/sessions.html
+
+// theme pour le panier
+http://bootsnipp.com/snippets/featured/responsive-shopping-cart
+
+ - Afficher sur le dashboard les trois produits les mieux notés
+ - Dans les notifications (petit drapeau dans le header), afficher le nombre de commentaire non actifs
+ - Dans les notifications (petit drapeau dans le header) afficher les catégories sans photo
+ - Dans les notifications (petit drapeau dans le header) afficher les catégories non actives
+ - Dans les notifications (petite cloche dans le header) afficher le nombre de produit dont la quantité est inférieur à 5
+ - Mettre en place un wisiwig pour la description des produits (formulaire de création et édition)
+ - Todo list présente sur toutes les pages (proposition de placement tout en haut dans le menu)
+
+http://jelled.com/instagram/lookup-user-id
+
+php app/console cache:clear --env=prod
+
+https://user.oc-static.com/files/420001_421000/420451.png
+
+UTILISATION DU COMPOSANT SESSION DE SYMFONY2:
+$session->set('name', 'Drak');    // permet de stocker dans la clef name la valeur Drak dans la session
+$session->get('name');           // permet de récupérer la clef name dans la session
+$session->remove('name')        // permet de supprimer la clef name dans la session
+
+
+- Créer la route suivante : /panier/add/1     (1 étant l'id du produit)
+- Cette route amène sur une méthode du controller CartController
+- Voici les étapes à effectuer :
+   1) Récupération de la session
+
+   2) Je test s'il existe quelque chose dans la session
+			2.1) S'il existe quelque chose dans la session je récupère l'information et je la stocke dans un tableau $allProducts
+
+	 3) S'il n'existe rien dans la session
+			3.1) Je créer le tableau $allProducts vide
+
+   4) Je stock dans le tableau $allProducts (vide ou plein en fonction du test du dessus) l'id du produit.
+      Pour l'exemple ici 1. Le tableau ressemblera à ceci [1]
+
+   5) Je stock le tableau $allProducts dans la session
+
+   6) Je redirige sur la page panier (/panier)
+
+
+
+- Créer la route suivante : /panier
+- Voici les étapes à effectuer:
+	 1) Vérifier s'il existe quelque chose dans la session
+
+	 2) S'il existe quelque chose dans la session je récupère l'information et je la stocke dans un tableau $allProducts
+
+	 3) S'il n'existe rien dans la session, je créer le tableau $allProducts
+
+	 4) J'affiche la page du panier en envoyant le tableau $allProducts (vide ou plein)
+
+	 5) Utiliser le design suivant : http://bootsnipp.com/snippets/featured/responsive-shopping-catr
+
+$allProducts = [];
+        foreach ($Product as $p) {
+            if (isset($allProducts[$p]))
+            {
+                $allProducts[$p] += 1;
+            }
+            else
+            {
+
+                $allProducts[$p] = 1;
+            }
+        }
+
+
+Il faut comme argument doctrine afin de faire la requête de récupération des produits et session
+arguments: [@doctrine.orm.entity_manager, @session]
+
+

@@ -8,8 +8,13 @@ use Troiswa\BackBundle\Entity\Product;
 
 class CartController extends Controller
 {
-    public function addAction($id, Request $request)
+    public function addAction(Product $product, Request $request)
     {
+
+        $panier = $this->get('troiswa_back.cart');
+        //die(dump($panier));
+        $panier->add($product);
+        /*
         $session = $request->getSession();
 
         $allProducts = [];
@@ -31,7 +36,7 @@ class CartController extends Controller
             $allProducts[$id] = 1;
         }
 
-        $session->set('panier', $allProducts);
+        $session->set('panier', $allProducts);*/
 
         //die(dump($session->get('panier')));
         //dump($session);
@@ -46,7 +51,7 @@ class CartController extends Controller
 
     public function panierAction(Request $request)
     {
-        $session = $request->getSession();
+       /* $session = $request->getSession();
         $allProducts = [];
 
         if($session->get('panier')){
@@ -58,6 +63,16 @@ class CartController extends Controller
 
         //die(dump($session->get('panier')));
         return $this->render('TroiswaBackBundle:cart:panier.html.twig', ['allProducts' => $allProducts, 'quantity' => $session->get('panier')]);
+       */
+
+        $panier = $this->get('troiswa_back.cart');
+
+
+        return $this->render("TroiswaBackBundle:cart:panier.html.twig",
+            [
+                'allProducts' => $panier->getProducts(),
+                'qtyProducts' => $panier->getSessionPanier()
+            ]);
     }
 
     public function deleteAction(Product $product, Request $request)
