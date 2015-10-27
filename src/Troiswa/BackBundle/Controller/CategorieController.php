@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Troiswa\BackBundle\Entity\Categorie;
 use Troiswa\BackBundle\Form\CategorieType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class CategorieController extends Controller

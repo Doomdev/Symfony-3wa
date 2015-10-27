@@ -4,7 +4,14 @@ security:
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        Troiswa\BackBundle\Entity\User: plaintext
+        #Troiswa\BackBundle\Entity\User:
+         #   algorithm: sha512
+          #  encode_as_base64: true
+           # iterations: 1000
+
+        Troiswa\BackBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 15
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -19,7 +26,13 @@ security:
                gertrude: { password:azerty, roles: ROLE_SUPER_NANA}
 
         user_admin:
-            entity: { class: Troiswa\BackBundle\Entity\User, property: login }
+           # entity: { class: Troiswa\BackBundle\Entity\User, property: login }
+           #entity: { class: Troiswa\BackBundle\Entity\User, property: email }
+           entity: { class: Troiswa\BackBundle\Entity\User }
+
+        mix:
+            chain:
+                provider: [in_memory, user_admin]
 
     role_hierarchy:
         # si j'essaie d'acceder a /product en tant que commercial sachant qu'un commmercial peut y acceder
@@ -72,4 +85,4 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-    - { path: ^/admin, role: ROLE_ADMIN }
+    - { path: ^/admin, role: ROLE_COMMERCIAL }

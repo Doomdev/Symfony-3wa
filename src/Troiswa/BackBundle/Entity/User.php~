@@ -97,7 +97,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->salt = hash('sha512', (uniqid(null, true))); // création d'un salt pour chaque utilisateur
     }
 
@@ -388,38 +387,4 @@ class User implements UserInterface
     }
 
 
-
-    /**
-     * Add groupe
-     *
-     * @param \Troiswa\BackBundle\Entity\Groupe $groupe
-     *
-     * @return User
-     */
-    public function addGroupe(\Troiswa\BackBundle\Entity\Groupe $groupe)
-    {
-        $this->groupes[] = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Remove groupe
-     *
-     * @param \Troiswa\BackBundle\Entity\Groupe $groupe
-     */
-    public function removeGroupe(\Troiswa\BackBundle\Entity\Groupe $groupe)
-    {
-        $this->groupes->removeElement($groupe);
-    }
-
-    /**
-     * Get groupes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGroupes()
-    {
-        return $this->groupes;
-    }
 }

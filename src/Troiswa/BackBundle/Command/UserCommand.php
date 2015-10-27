@@ -22,18 +22,26 @@ class UserCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        //Recuperation de doctrine
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $Login = $input->getArgument('login');
+        $Mdp = $input->getArgument('mdp');
+
 
         $user = new User();
+
+        $factory = $this->getContainer()->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($user); // Je récupère l'encoder de la class Troiswa\BackBundle\Entity\User
+        $newPassword = $encoder->encodePassword($Mdp, $user->getSalt());
+
         $user->setFirstname("John");
         $user->setLastname("Brand");
-        $user->setEmail("roadsteur@gmail.com");
-        $user->setLogin($input->getArgument('login'));
-        $user->setPassword($input->getArgument('mdp'));
+        $user->setEmail("toto12@gmail.com");
+        $user->setLogin($Login);
+        $user->setPassword($newPassword);
         $user->setGender(0);
         $user->setAdress("10, avenue du capitaine glarner 93400 Saint-Ouen");
         $user->setPhone("0145123269");
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $em->persist($user);
         $em->flush();

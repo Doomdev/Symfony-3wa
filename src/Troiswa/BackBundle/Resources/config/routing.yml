@@ -90,3 +90,9 @@ troiswa_back_login_check:
 
 troiswa_back_logout:
     path:     /logout
+#-------------------------- Enregistrement d'un client---------------------#
+
+troiswa_back_page_enregistrement:
+    path:     /register
+    defaults: { _controller: TroiswaBackBundle:User:enregistrement }
+
