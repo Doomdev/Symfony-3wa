@@ -51,6 +51,48 @@
     </div>
 </div><!-- /.box-body -->
 
+{#<h1>
+    {{"Affichage de tous les produits" |trans  }}
+</h1>
+<h1>
+    {% trans %}
+    ceci est une autre phrase
+    {% endtrans %}
+</h1>
+
+<p>Ceci est du super contenu</p>
+
+<p>Il y a 2 produits</p>#}
+
+    <h1>
+        {{ "product.title"|trans }}
+    </h1>
+
+    <h2>
+        {% trans %}
+        product.subtitle
+        {% endtrans %}
+    </h2>
+
+    <p>
+        {% set nb = 100 %}
+        {% transchoice nb %}
+        product.count
+        {% endtranschoice %}
+
+        {% transchoice with {'%nb%': product|length} %}
+        product.count
+        {% endtranschoice %}
+
+        {% set nb = 100 %}
+        {{ product.count|transchoice({'%nb%': nb}) }}
+
+        {{ product.count|transchoice({'%nb%': product|length}) }}
+    </p>
+
+
+
+
 
 {% endblock %}
 

@@ -5,6 +5,7 @@ namespace Troiswa\BackBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
@@ -12,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user")
  *
  * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\UserRepository")
+ * @UniqueEntity("email", message="L'email doit être unique")
+ * @UniqueEntity("login", message="Le login doit être unique")
  */
 class User implements UserInterface
 {

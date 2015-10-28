@@ -1,0 +1,310 @@
+<h1>
+{{ "product.title"|trans }}
+</h1>
+
+<h2>
+  {% trans %}
+  	product.subtitle
+  {% endtrans %}
+</h2>
+
+<p>
+{% trans %}
+  product.count
+{% endtrans %}
+
+</p>
+
+
+
+// Vérifier les textes à traduire
+php app/console debug:translation fr TroiswaBackBundle
+
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update fr TroiswaBackBundle --force
+
+
+Resources/
+  translations/
+  	messages.fr.yml
+
+
+
+product:
+	# message sur plusieurs grâce au |
+	title: |
+    Ceci est la page qui liste tous les produits
+    lorem
+    lorem
+    lorel
+  subtitle: Ceci est du texte
+  count: Il y a 2 produits
+-------------------------------------------------------------------
+
+<h1>
+{{ "product.title"|trans }}
+</h1>
+
+<h2>
+  {% trans %}
+  	product.subtitle
+  {% endtrans %}
+</h2>
+
+
+
+
+
+{% set nb = 100 %}
+{% transchoice nb %}
+  product.count
+{% endtranschoice %}
+
+{% transchoice product|length %}
+	product.count
+{% endtranschoice %}
+
+
+
+
+
+
+{% set nb = 100 %}
+{{ "product.count"|transchoice(nb) }}
+
+
+{{ "product.count"|transchoice(product|length) }}
+
+
+
+// Vérifier les textes à traduire
+php app/console debug:translation fr TroiswaBackBundle
+
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update fr TroiswaBackBundle --force
+
+
+Resources/
+  translations/
+  	messages.fr.yml
+
+
+
+product:
+	# message sur plusieurs grâce au |
+	title: |
+    Ceci est la page qui liste tous les produits
+    lorem
+    lorem
+    lorel
+  subtitle: Ceci est du texte
+  count: "{0} Il n'y a pas de produit|{1} Il y a un produit|]1,20] Il y a %count% produits|]20,Inf[ Il y a beaucoup de produits"
+------------------------------------------------------------------------
+troiswa_back:
+	resource: "@TroiswaBackBundle/Resources/config/routing.yml"
+  prefix: /{_locale}/admin
+  requirements:
+		_locale: fr|en
+
+
+/fr/admin
+/en/admin
+
+
+messages.en.yml
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update en TroiswaBackBundle --force
+
+
+Il faut creer un fichier validators.fr.yml
+
+
+
+class Product
+{
+
+  /**
+  * @Assert\NotBlank(message="product.notblank")
+  */
+  private $title;
+
+  /**
+  * @Assert\Length(message="product.length")
+  */
+  private $description;
+}
+
+
+
+
+product:
+	notblank: Attention votre titre doit être remplie
+  length: Votre description doit faire {{ limit }} caractère
+
+
+
+
+
+
+<h1>
+{{ "product.title"|trans }}
+</h1>
+
+<h2>
+  {% trans %}
+  	product.subtitle
+  {% endtrans %}
+</h2>
+
+
+{% set nb = 100 %}
+{% transchoice nb %}
+  product.count
+{% endtranschoice %}
+
+{% transchoice product|length %}
+	product.count
+{% endtranschoice %}
+
+{% set nb = 100 %}
+{{ "product.count"|transchoice(nb) }}
+
+
+{{ "product.count"|transchoice(product|length) }}
+
+
+
+// Vérifier les textes à traduire
+php app/console debug:translation fr TroiswaBackBundle
+
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update fr TroiswaBackBundle --force
+
+
+Resources/
+  translations/
+  	messages.fr.yml
+
+
+
+product:
+	# message sur plusieurs grâce au |
+	title: |
+    Ceci est la page qui liste tous les produits
+    lorem
+    lorem
+    lorel
+  subtitle: Ceci est du texte
+  count: "{0} Il n'y a pas de produit|{1} Il y a un produit|]1,20] Il y a %count% produits|]20,Inf[ Il y a beaucoup de produits"
+
+---------------------------------------------------------------------------
+
+https://symfony.com/doc/current/cookbook/deployment/tools.html
+http://www.symfony2-checklist.com/fr
+
+
+
+troiswa_back:
+	resource: "@TroiswaBackBundle/Resources/config/routing.yml"
+  prefix: /{_locale}/admin
+  requirements:
+		_locale: fr|en
+
+https://symfony.com/doc/current/cookbook/deployment/tools.html
+http://www.symfony2-checklist.com/fr
+
+/fr/admin
+/en/admin
+
+
+messages.en.yml
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update en TroiswaBackBundle --force
+
+
+Il faut creer un fichier validators.fr.yml
+
+
+
+class Product
+{
+
+  /**
+  * @Assert\NotBlank(message="product.notblank")
+  */
+  private $title;
+
+  /**
+  * @Assert\Length(message="product.length")
+  */
+  private $description;
+}
+
+
+
+
+product:
+	notblank: Attention votre titre doit être remplie
+  length: Votre description doit faire {{ limit }} caractère
+
+
+
+
+
+
+<h1>
+{{ "product.title"|trans }}
+</h1>
+
+<h2>
+  {% trans %}
+  	product.subtitle
+  {% endtrans %}
+</h2>
+
+
+{% set nb = 100 %}
+{% transchoice nb %}
+  product.count
+{% endtranschoice %}
+
+{% transchoice product|length %}
+	product.count
+{% endtranschoice %}
+
+{% set nb = 100 %}
+{{ "product.count"|transchoice(nb) }}
+
+
+{{ "product.count"|transchoice(product|length) }}
+
+
+
+// Vérifier les textes à traduire
+php app/console debug:translation fr TroiswaBackBundle
+
+
+// Récupérer tous les messages dans les templates
+php app/console translation:update fr TroiswaBackBundle --force
+
+
+Resources/
+  translations/
+  	messages.fr.yml
+
+
+
+product:
+	# message sur plusieurs grâce au |
+	title: |
+    Ceci est la page qui liste tous les produits
+    lorem
+    lorem
+    lorel
+  subtitle: Ceci est du texte
+  count: "{0} Il n'y a pas de produit|{1} Il y a un produit|]1,20] Il y a %count% produits|]20,Inf[ Il y a beaucoup de produits"

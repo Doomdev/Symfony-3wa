@@ -1,0 +1,229 @@
+- Afficher la liste des roles dans le formulaire de création d un utilisateur
+- Tester que que l email et le login soit unique
+- L utilisateur doit pouvoir rentrer 2 fois son mot de passe :
+repeat au niveau des type de formulaire
+
+- Créer un Assert\Callback pour éviter que quelqu un prenne le pseudo admin
+et/ou le mot de passe admin
+
+- Créer un Assert : @MotDePasse permettant de vérifier si un mot de passe est assez puissant
+- Le mot de passe peut prendre un chiffre permettant de donner le nombre de caractère souhaité
+- Le mot de passe peut prendre des caractères que l utilisateur doit au moins mettre
+Ex : @MotDePasse()
+Ex : @MotDePasse(min=8)
+Ex : @MotDePasse(min=10, caractere="%_-")
+Ex : @MotDePasse(min=8, message="Attention votre mot de passe doit faire 8 caractères")
+
+http://symfony.com/doc/current/reference/constraints/Length.html
+
+
+/**
+ * @Annotation
+ */
+class MotDePasse extends Constraint
+{
+  	public $min = 6;
+  	public $message = "Le mot de passe doit comporter au minimum {{ nb }} caractères";
+}
+
+
+
+class MotDePasseValidator extends ConstraintValidator
+{
+    public function validate($value, Constraint $constraint)
+    {
+      // $value c'est la valeur du mot de passe
+      // $constraint c'est l'objet MotDePasse
+
+      if (strlen($value) < $constraint->min)
+      {
+        $this->context->buildViolation($constraint->message)
+          		->setParameter('{{ nb }}', $constraint->min)
+          		->addViolation();
+      }
+    }
+}
+
+
+
+use Troiswa\BackBundle\Validator\MotDePasse;
+
+class User
+{
+  /**
+  * @MotDePasse(message="Attention il faut {{ nb }} caractères", min=8)
+  */
+  private $password;
+}
+
+-----------------------------------------------------------------
+Suite injection de dependance avec les constraints :
+
+use Troiswa\BackBundle\Validator\PositionCategory;
+
+
+class Category
+{
+  /**
+  * @PositionCategory()
+  */
+  private $position;
+}
+
+
+
+/**
+ * @Annotation
+ */
+class PositionCategory extends Constraint
+{
+  	public $message = "La position existe déjà";
+
+
+    public function validatedBy()
+    {
+    	return 'troiswa_back_position_category';
+    }
+}
+
+
+
+class PositionCategoryValidator extends ConstraintValidator
+{
+  	private $em;
+
+    public function __construct(EntityManager $em)
+    {
+      $this->em = $em;
+    }
+
+    public function validate($value, Constraint $constraint)
+    {
+      die(dump($this->em));
+      // $value c'est la valeur du mot de passe
+      // $constraint c'est l'objet MotDePasse
+    }
+}
+
+
+---------------------------
+  services.yml
+---------------------------
+services:
+
+
+
+		troiswa.validator.position.category:
+				class: Troiswa\BackBundle\Validator\PositionCategoryValidator
+        arguments: [@doctrine.orm.entity_manager]
+				tags:
+					- { name: validor.constraint_validator, alias: troiswa_back_position_category }
+
+---------------------------------------------------------------------------------------
+
+use Troiswa\BackBundle\Validator\PositionCategory;
+
+
+class Category
+{
+  /**
+  * @PositionCategory()
+  */
+  private $position;
+}
+
+
+
+/**
+ * @Annotation
+ */
+class PositionCategory extends Constraint
+{
+  	public $message = "La position existe déjà";
+
+
+    public function validatedBy()
+    {
+    	return 'troiswa_back_position_category';
+    }
+}
+
+
+
+class PositionCategoryValidator extends ConstraintValidator
+{
+  	private $em;
+
+    public function __construct(EntityManager $em)
+    {
+      $this->em = $em;
+    }
+
+    public function validate($value, Constraint $constraint)
+    {
+      $position = $this->em->getRepository('TroiswaBackBundle:Category')->findOneByPosition($value);
+
+      if ($position)
+      {
+        $this->context->buildViolation($constraint->message)
+                ->addViolation();
+      }
+      // $value c'est la valeur du mot de passe
+      // $constraint c'est l'objet MotDePasse
+    }
+}
+
+
+---------------------------
+  services.yml
+---------------------------
+services:
+
+
+
+		troiswa.validator.position.category:
+				class: Troiswa\BackBundle\Validator\PositionCategoryValidator
+        arguments: [@doctrine.orm.entity_manager]
+				tags:
+					- { name: validator.constraint_validator, alias: troiswa_back_position_category }
+------------------------------------------------------------------------------
+
+$user = $this->createQueryBuilder('u')
+  			->select('u, g')
+  			->join('u.groupes', 'g')
+        ->where('u.login = :login OR u.email = :email')
+        ->setParameter('login', $loginOrEmail)
+        ->setParameter('email', $loginOrEmail)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+
+
+public function refreshUser(UserInterface $user)
+{
+    $class = get_class($user);
+    if (!$this->supportsClass($class)) {
+        throw new UnsupportedUserException(
+            sprintf(
+                'Instances of "%s" are not supported.',
+                $class
+            )
+        );
+    }
+
+    return $this->loadUserByUsername($user->getLogin());
+}
+
+----------------------------------------------------------
+
+$formulaireUser = $this->createForm(new UserType(), $user)
+            ->add('agree', 'choice', [
+                'choices'  => array('yes' => " I agree to the terms"),
+                "expanded" => true,
+                "multiple" => true,
+                "constraints" => new NotBlank(['message' => 'Vous devez accepter']),
+                "mapped" => false // permet d'ajouter un champ non mappé de l'entité User
+            ]);
+
+
+

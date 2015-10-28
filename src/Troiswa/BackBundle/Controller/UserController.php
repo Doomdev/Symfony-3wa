@@ -17,7 +17,7 @@ class UserController extends Controller
 
         $user = new User();
         $form = $this->createForm(new UserType(), $user)
-                ->add('enregstrer', 'submit');
+                ->add('enregistrer', 'submit');
         $form->handleRequest($request);
         //$form->add('submit', 'submit', array('label' => 'Create'));
 
